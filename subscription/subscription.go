@@ -2,7 +2,10 @@
 package subscription
 
 import (
+	"bytes"
+	"crypto/sha256"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"time"
@@ -12,6 +15,7 @@ import (
 type Subscription struct {
 	feedURL      url.URL
 	unreachable  bool // Consider using a enum
+	checksum     [sha256.Size224]byte
 	createdAt    time.Time
 	lastSyncedAt time.Time
 }
@@ -50,10 +54,21 @@ func (s *Subscription) Sync() error {
 	}
 	defer resp.Body.Close()
 
+	payload, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
 	if resp.StatusCode != 200 {
 		s.unreachable = true
 		return fmt.Errorf("sync failure (%d): %s", resp.StatusCode, s.feedURL.String())
 	}
+
+	checksum := sha256.Sum224(payload)
+	if bytes.Equal(s.checksum[:], checksum[:]) {
+		// There's no new content to process.
+		return nil
+	}
+	s.checksum = checksum
 
 	// TODO(toru): Parse the response.
 	return nil
