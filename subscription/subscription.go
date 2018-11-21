@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/toru/dexter/feed"
 )
 
 // Subscription represents a subscription to a data feed.
@@ -70,7 +72,7 @@ func (s *Subscription) Sync() error {
 	}
 	s.checksum = checksum
 
-	if isAtomFeed(payload) {
+	if feed.IsAtomFeed(payload) {
 		// TODO(toru): Parse the response.
 		fmt.Println("this is an atom feed")
 	} else {
