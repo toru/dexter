@@ -2,6 +2,7 @@ package feed
 
 import (
 	"bytes"
+	"encoding/xml"
 	"time"
 )
 
@@ -35,4 +36,13 @@ func IsAtomFeed(doc []byte) bool {
 		upper = detectionLimit
 	}
 	return bytes.Contains(doc[:upper], []byte(atomHint))
+}
+
+// ParseAtomFeed parses the given byte slice as an AtomFeed.
+func ParseAtomFeed(doc []byte) (*AtomFeed, error) {
+	feed := &AtomFeed{}
+	if err := xml.Unmarshal(doc, feed); err != nil {
+		return nil, err
+	}
+	return feed, nil
 }
