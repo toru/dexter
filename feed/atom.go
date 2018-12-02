@@ -9,10 +9,17 @@ import (
 const atomHint = "http://www.w3.org/2005/Atom"
 const detectionLimit = 1024
 
+// AtomAuthor represents an element described in RFC 4287 Section 4.2.1
+type AtomAuthor struct {
+	Name  string `xml:"name"`
+	URI   string `xml:"uri"`
+	Email string `xml:"email"`
+}
+
 // AtomFeed represents the top-level container element of the Atom
 // feed document as described in RFC 4287 Section 4.1.1
 type AtomFeed struct {
-	// Author
+	Author AtomAuthor `xml:"author"`
 	// Category
 	// Contributor
 	// Generator
