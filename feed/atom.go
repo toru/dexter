@@ -17,6 +17,14 @@ type AtomAuthor struct {
 	Email string `xml:"email"`
 }
 
+// AtomCategory represents the "atom:category" element defined in
+// RFC 4287 Section 4.2.2
+type AtomCategory struct {
+	Term   string `xml:"term,attr"`
+	Scheme string `xml:"scheme,attr"`
+	Label  string `xml:"label,attr"`
+}
+
 // AtomGenerator represents the "atom:generator" element defined in
 // RFC 4287 Section 4.2.4
 type AtomGenerator struct {
@@ -28,8 +36,8 @@ type AtomGenerator struct {
 // AtomFeed represents the top-level container element of the Atom
 // feed document as defined in RFC 4287 Section 4.1.1
 type AtomFeed struct {
-	Author AtomAuthor `xml:"author"`
-	// Category
+	Author   AtomAuthor   `xml:"author"`
+	Category AtomCategory `xml:"category"`
 	// Contributor
 	Generator AtomGenerator `xml:"generator"`
 	Icon      string        `xml:"icon"`
