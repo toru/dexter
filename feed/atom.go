@@ -33,6 +33,17 @@ type AtomGenerator struct {
 	Value   string `xml:",chardata"`
 }
 
+// AtomLink represents the "atom:link" element defined in
+// RFC 4287 Section 4.2.7
+type AtomLink struct {
+	HRef     string `xml:"href,attr"`
+	Rel      string `xml:"rel,attr"`
+	HRefLang string `xml:"hreflang,attr"`
+	Type     string `xml:"type,attr"`
+	Title    string `xml:"title,attr"`
+	Length   string `xml:"length,attr"`
+}
+
 // AtomFeed represents the top-level container element of the Atom
 // feed document as defined in RFC 4287 Section 4.1.1
 type AtomFeed struct {
@@ -42,12 +53,12 @@ type AtomFeed struct {
 	Generator AtomGenerator `xml:"generator"`
 	Icon      string        `xml:"icon"`
 	ID        string        `xml:"id"`
-	// Links
-	Logo     string    `xml:"logo"`
-	Rights   string    `xml:"rights"`
-	Subtitle string    `xml:"subtitle"`
-	Title    string    `xml:"title"`
-	Updated  time.Time `xml:"updated"`
+	Links     []AtomLink    `xml:"link"`
+	Logo      string        `xml:"logo"`
+	Rights    string        `xml:"rights"`
+	Subtitle  string        `xml:"subtitle"`
+	Title     string        `xml:"title"`
+	Updated   time.Time     `xml:"updated"`
 	// Extentions
 	// Entries
 }
