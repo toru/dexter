@@ -21,6 +21,10 @@ type atomPerson struct {
 // RFC 4287 Section 4.2.1
 type AtomAuthor = atomPerson
 
+// AtomContributor represents the "atom:contributor" element defined in
+// RFC 4287 Section 4.2.3
+type AtomContributor = atomPerson
+
 // AtomCategory represents the "atom:category" element defined in
 // RFC 4287 Section 4.2.2
 type AtomCategory struct {
@@ -51,18 +55,18 @@ type AtomLink struct {
 // AtomFeed represents the top-level container element of the Atom
 // feed document as defined in RFC 4287 Section 4.1.1
 type AtomFeed struct {
-	Author   AtomAuthor   `xml:"author"`
-	Category AtomCategory `xml:"category"`
-	// Contributor
-	Generator AtomGenerator `xml:"generator"`
-	Icon      string        `xml:"icon"`
-	ID        string        `xml:"id"`
-	Links     []AtomLink    `xml:"link"`
-	Logo      string        `xml:"logo"`
-	Rights    string        `xml:"rights"`
-	Subtitle  string        `xml:"subtitle"`
-	Title     string        `xml:"title"`
-	Updated   time.Time     `xml:"updated"`
+	Author      AtomAuthor      `xml:"author"`
+	Category    AtomCategory    `xml:"category"`
+	Contributor AtomContributor `xml:"contributor"`
+	Generator   AtomGenerator   `xml:"generator"`
+	Icon        string          `xml:"icon"`
+	ID          string          `xml:"id"`
+	Links       []AtomLink      `xml:"link"`
+	Logo        string          `xml:"logo"`
+	Rights      string          `xml:"rights"`
+	Subtitle    string          `xml:"subtitle"`
+	Title       string          `xml:"title"`
+	Updated     time.Time       `xml:"updated"`
 	// Extentions
 	// Entries
 }
