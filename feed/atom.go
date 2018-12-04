@@ -9,13 +9,17 @@ import (
 const atomHint = "http://www.w3.org/2005/Atom"
 const detectionLimit = 1024
 
-// AtomAuthor represents the "atom:author" element defined in
-// RFC 4287 Section 4.2.1
-type AtomAuthor struct {
+// atomPerson represents the Person construct defined in
+// RFC 4287 Section 3.2
+type atomPerson struct {
 	Name  string `xml:"name"`
 	URI   string `xml:"uri"`
 	Email string `xml:"email"`
 }
+
+// AtomAuthor represents the "atom:author" element defined in
+// RFC 4287 Section 4.2.1
+type AtomAuthor = atomPerson
 
 // AtomCategory represents the "atom:category" element defined in
 // RFC 4287 Section 4.2.2
