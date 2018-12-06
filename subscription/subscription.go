@@ -73,8 +73,12 @@ func (s *Subscription) Sync() error {
 	s.checksum = checksum
 
 	if feed.IsAtomFeed(payload) {
-		// TODO(toru): Parse the response.
-		fmt.Println("this is an atom feed")
+		atomFeed, err := feed.ParseAtomFeed(payload)
+		if err != nil {
+			return err
+		}
+		// TODO(toru): Store the delta to persistent storage
+		fmt.Printf("%+v\n", atomFeed)
 	} else {
 		return fmt.Errorf("unknown syndication format")
 	}
