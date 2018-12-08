@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"github.com/pelletier/go-toml"
+
+	"github.com/toru/dexter/subscription"
 )
 
 type config struct {
@@ -34,10 +36,18 @@ func main() {
 	if err := tree.Unmarshal(cfg); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("loaded: %+v\n", cfg)
+
+	// TODO(toru): This should be backed by a datastore whether it's on-memory
+	// or disk. Write a simple inter-changeable storage mechanism.
+	subscriptions := make([]subscription.Subscription, 0, len(cfg.Endpoints))
+	for _, endpoint := range cfg.Endpoints {
+		sub := subscription.New()
+		sub.SetFeedURL(endpoint)
+		subscriptions = append(subscriptions, *sub)
+	}
 
 	fmt.Println("starting dexter")
 	for range time.Tick(time.Second) {
-		fmt.Printf("tick: %d\n", time.Now().Unix())
+		log.Printf("tick: %d\n", time.Now().Unix())
 	}
 }
