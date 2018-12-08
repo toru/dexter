@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
+	"log"
 	"time"
 )
 
@@ -14,7 +14,7 @@ func main() {
 
 	if len(cfgPath) == 0 {
 		flag.PrintDefaults()
-		os.Exit(0)
+		log.Fatal()
 	}
 
 	fmt.Println("starting dexter")
