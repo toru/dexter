@@ -5,7 +5,15 @@ import (
 	"fmt"
 	"log"
 	"time"
+
+	"github.com/pelletier/go-toml"
 )
+
+type config struct {
+	// Temporary hack for development purpose. Eventually a more
+	// sophisticated mechanism will be provided.
+	Endpoints []string // Feed URLs to pull from
+}
 
 func main() {
 	var cfgPath string
@@ -16,6 +24,17 @@ func main() {
 		flag.PrintDefaults()
 		log.Fatal()
 	}
+
+	tree, err := toml.LoadFile(cfgPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	cfg := &config{}
+	if err := tree.Unmarshal(cfg); err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("loaded: %+v\n", cfg)
 
 	fmt.Println("starting dexter")
 	for range time.Tick(time.Second) {
