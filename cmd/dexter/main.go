@@ -11,7 +11,11 @@ import (
 	"github.com/toru/dexter/subscription"
 )
 
+const defaultSyncInterval string = "30m"
+
 type config struct {
+	SyncInterval time.Duration `toml:"sync_interval"` // Interval between subscription syncs
+
 	// Temporary hack for development purpose. Eventually a more
 	// sophisticated mechanism will be provided.
 	Endpoints []string // Feed URLs to pull from
@@ -36,6 +40,13 @@ func main() {
 	if err := tree.Unmarshal(cfg); err != nil {
 		log.Fatal(err)
 	}
+	if cfg.SyncInterval == 0 {
+		log.Printf("SyncInterval missing, using: %s\n", defaultSyncInterval)
+		cfg.SyncInterval, err = time.ParseDuration(defaultSyncInterval)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 
 	// TODO(toru): This should be backed by a datastore whether it's on-memory
 	// or disk. Write a simple inter-changeable storage mechanism.
@@ -46,8 +57,8 @@ func main() {
 		subscriptions = append(subscriptions, *sub)
 	}
 
-	fmt.Println("starting dexter")
-	for range time.Tick(time.Second) {
+	fmt.Printf("starting dexter with sync interval: %s\n", cfg.SyncInterval)
+	for range time.Tick(cfg.SyncInterval) {
 		log.Printf("tick: %d\n", time.Now().Unix())
 	}
 }
