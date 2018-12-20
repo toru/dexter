@@ -9,6 +9,13 @@ import (
 const atomHint = "http://www.w3.org/2005/Atom"
 const detectionLimit = 1024
 
+// atomText represents atom(Plain|XHTML)TextConstruct defined in
+// RFC 4287 Section 3.1
+type atomText struct {
+	Type  string `xml:"type,attr"`
+	Value string `xml:",innerxml"`
+}
+
 // atomPerson represents the Person construct defined in
 // RFC 4287 Section 3.2
 type atomPerson struct {
@@ -67,8 +74,14 @@ type AtomFeed struct {
 	Subtitle     string            `xml:"subtitle"`
 	Title        string            `xml:"title"`
 	Updated      time.Time         `xml:"updated"`
-	// Extentions
-	// Entries
+	Entries      []AtomEntry       `xml:"entry"`
+}
+
+// AtomEntry represents the "atom:entry" container element defined in
+// RFC 4287 Section 4.1.2
+type AtomEntry struct {
+	Summary atomText `xml:"summary"`
+	Content atomText `xml:"content"`
 }
 
 // Heuristically determines if the document is an Atom feed by searching
