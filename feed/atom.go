@@ -80,8 +80,18 @@ type AtomFeed struct {
 // AtomEntry represents the "atom:entry" container element defined in
 // RFC 4287 Section 4.1.2
 type AtomEntry struct {
-	Summary atomText `xml:"summary"`
-	Content atomText `xml:"content"`
+	Authors      []AtomAuthor      `xml:"author"`
+	Categories   []AtomCategory    `xml:"category"`
+	Content      atomText          `xml:"content"`
+	Contributors []AtomContributor `xml:"contributor"`
+	ID           string            `xml:"id"`
+	Links        []AtomLink        `xml:"link"`
+	Published    time.Time         `xml:"published"`
+	Rights       string            `xml:"rights"`
+	Source       string            `xml:"source"`
+	Summary      atomText          `xml:"summary"`
+	Title        string            `xml:"title"`
+	Updated      time.Time         `xml:"updated"`
 }
 
 // Heuristically determines if the document is an Atom feed by searching
