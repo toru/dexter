@@ -15,7 +15,8 @@ import (
 
 // Subscription represents a subscription to a data feed.
 type Subscription struct {
-	feedURL      url.URL
+	FeedURL url.URL // URL of the data endpooint
+
 	unreachable  bool // Consider using a enum
 	checksum     [sha256.Size224]byte
 	createdAt    time.Time
@@ -33,14 +34,14 @@ func (s *Subscription) SetFeedURL(feedURL string) error {
 	if err != nil {
 		return err
 	}
-	s.feedURL = *u
+	s.FeedURL = *u
 	return nil
 }
 
 // Sync downloads the data feed and parses it.
 func (s *Subscription) Sync() error {
-	if len(s.feedURL.String()) == 0 {
-		return fmt.Errorf("subscription has no feedURL")
+	if len(s.FeedURL.String()) == 0 {
+		return fmt.Errorf("subscription has no FeedURL")
 	}
 	if s.unreachable {
 		return fmt.Errorf("subscription is unreachable")
@@ -48,7 +49,7 @@ func (s *Subscription) Sync() error {
 
 	// TODO(toru): This is only for dev-purpose. Craft a proper HTTP
 	// client with defensive settings like network timeout.
-	resp, err := http.Get(s.feedURL.String())
+	resp, err := http.Get(s.FeedURL.String())
 	s.lastSyncedAt = time.Now().UTC()
 	if err != nil {
 		s.unreachable = true
@@ -62,7 +63,7 @@ func (s *Subscription) Sync() error {
 	}
 	if resp.StatusCode != 200 {
 		s.unreachable = true
-		return fmt.Errorf("sync failure (%d): %s", resp.StatusCode, s.feedURL.String())
+		return fmt.Errorf("sync failure (%d): %s", resp.StatusCode, s.FeedURL.String())
 	}
 
 	checksum := sha256.Sum224(payload)
@@ -73,12 +74,11 @@ func (s *Subscription) Sync() error {
 	s.checksum = checksum
 
 	if feed.IsAtomFeed(payload) {
-		atomFeed, err := feed.ParseAtomFeed(payload)
+		_, err := feed.ParseAtomFeed(payload)
 		if err != nil {
 			return err
 		}
 		// TODO(toru): Store the delta to persistent storage
-		fmt.Printf("%+v\n", atomFeed)
 	} else {
 		return fmt.Errorf("unknown syndication format")
 	}
