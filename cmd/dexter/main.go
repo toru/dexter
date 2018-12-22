@@ -60,5 +60,14 @@ func main() {
 	fmt.Printf("starting dexter with sync interval: %s\n", cfg.SyncInterval)
 	for range time.Tick(cfg.SyncInterval) {
 		log.Printf("tick: %d\n", time.Now().Unix())
+
+		// TODO(toru): Concurrency
+		for _, sub := range subscriptions {
+			if err := sub.Sync(); err != nil {
+				// Crash for dev-purpose
+				log.Fatal(err)
+			}
+			log.Printf("sync'd: %s\n", sub.FeedURL.String())
+		}
 	}
 }
