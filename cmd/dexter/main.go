@@ -13,8 +13,16 @@ import (
 
 const defaultSyncInterval string = "30m"
 
+type webConfig struct {
+	Listen string // TCP network address to listen on
+	Port   uint   // TCP port to listen for Web API requests
+
+	enabled bool
+}
+
 type config struct {
 	SyncInterval time.Duration `toml:"sync_interval"` // Interval between subscription syncs
+	Web          webConfig     `toml:"web"`           // Web API server configuration
 
 	// Temporary hack for development purpose. Eventually a more
 	// sophisticated mechanism will be provided.
@@ -40,6 +48,10 @@ func main() {
 	if err := tree.Unmarshal(cfg); err != nil {
 		log.Fatal(err)
 	}
+	if tree.Has("web") {
+		cfg.Web.enabled = true
+	}
+
 	if cfg.SyncInterval == 0 {
 		log.Printf("SyncInterval missing, using: %s\n", defaultSyncInterval)
 		cfg.SyncInterval, err = time.ParseDuration(defaultSyncInterval)
