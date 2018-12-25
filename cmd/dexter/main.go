@@ -39,16 +39,16 @@ func main() {
 		log.Fatal()
 	}
 
-	tree, err := toml.LoadFile(cfgPath)
+	cfgTree, err := toml.LoadFile(cfgPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	cfg := &config{}
-	if err := tree.Unmarshal(cfg); err != nil {
+	if err := cfgTree.Unmarshal(cfg); err != nil {
 		log.Fatal(err)
 	}
-	if tree.Has("web") {
+	if cfgTree.Has("web") {
 		cfg.Web.enabled = true
 	}
 
