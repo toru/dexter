@@ -16,8 +16,6 @@ const defaultSyncInterval string = "30m"
 type webConfig struct {
 	Listen string // TCP network address to listen on
 	Port   uint   // TCP port to listen for Web API requests
-
-	enabled bool
 }
 
 type config struct {
@@ -48,9 +46,6 @@ func main() {
 	if err := cfgTree.Unmarshal(cfg); err != nil {
 		log.Fatal(err)
 	}
-	if cfgTree.Has("web") {
-		cfg.Web.enabled = true
-	}
 
 	if cfg.SyncInterval == 0 {
 		log.Printf("SyncInterval missing, using: %s\n", defaultSyncInterval)
@@ -58,6 +53,10 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+	}
+
+	if cfgTree.Has("web") {
+		// TODO(toru): Start the Web API server
 	}
 
 	// TODO(toru): This should be backed by a datastore whether it's on-memory
