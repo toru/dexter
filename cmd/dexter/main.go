@@ -9,18 +9,14 @@ import (
 	"github.com/pelletier/go-toml"
 
 	"github.com/toru/dexter/subscription"
+	"github.com/toru/dexter/web"
 )
 
 const defaultSyncInterval string = "30m"
 
-type webConfig struct {
-	Listen string // TCP network address to listen on
-	Port   uint   // TCP port to listen for Web API requests
-}
-
 type config struct {
-	SyncInterval time.Duration `toml:"sync_interval"` // Interval between subscription syncs
-	Web          webConfig     `toml:"web"`           // Web API server configuration
+	SyncInterval time.Duration    `toml:"sync_interval"` // Interval between subscription syncs
+	Web          web.ServerConfig `toml:"web"`           // Web API server configuration
 
 	// Temporary hack for development purpose. Eventually a more
 	// sophisticated mechanism will be provided.
