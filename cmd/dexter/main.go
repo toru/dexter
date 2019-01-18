@@ -51,7 +51,7 @@ func main() {
 	}
 
 	if cfgTree.Has("web") {
-		// TODO(toru): Start the Web API server
+		web.ServeWebAPI(cfg.Web)
 	}
 
 	// TODO(toru): This should be backed by a datastore whether it's on-memory
