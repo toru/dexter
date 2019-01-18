@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"time"
 
@@ -44,7 +43,7 @@ func main() {
 	}
 
 	if cfg.SyncInterval == 0 {
-		log.Printf("SyncInterval missing, using: %s\n", defaultSyncInterval)
+		log.Printf("sync_interval missing, using: %s\n", defaultSyncInterval)
 		cfg.SyncInterval, err = time.ParseDuration(defaultSyncInterval)
 		if err != nil {
 			log.Fatal(err)
@@ -64,7 +63,7 @@ func main() {
 		subscriptions = append(subscriptions, *sub)
 	}
 
-	fmt.Printf("starting dexter with sync interval: %s\n", cfg.SyncInterval)
+	log.Printf("starting dexter with sync interval: %s\n", cfg.SyncInterval)
 	for range time.Tick(cfg.SyncInterval) {
 		log.Printf("tick: %d\n", time.Now().Unix())
 
