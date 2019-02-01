@@ -1,21 +1,22 @@
 package store
 
 import (
-	"log"
+	"errors"
 )
 
+// Store is an interface that Storage Engines must implement.
 type Store interface {
 	Name() string
 }
 
-func GetStore(name string) (Store, bool) {
+// GetStore returns a Storage Engine based on the given name.
+func GetStore(name string) (Store, error) {
 	switch name {
 	case "memory":
-		return MemoryStore{}, true
+		return MemoryStore{}, nil
 	case "mysql", "mariadb":
-		log.Println("work in progress")
+		return nil, errors.New("work in progress")
 	default:
-		log.Println("unknown store")
+		return nil, errors.New("unknown store")
 	}
-	return nil, false
 }
