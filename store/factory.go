@@ -13,7 +13,11 @@ type Store interface {
 func GetStore(name string) (Store, error) {
 	switch name {
 	case "memory":
-		return MemoryStore{}, nil
+		s, err := NewMemoryStore()
+		if err != nil {
+			return nil, err
+		}
+		return s, nil
 	case "mysql", "mariadb":
 		return nil, errors.New("work in progress")
 	default:
