@@ -7,6 +7,7 @@ import (
 // Store is an interface that Storage Engines must implement.
 type Store interface {
 	Name() string
+	NumSubscriptions() int
 }
 
 // GetStore returns a Storage Engine based on the given name.

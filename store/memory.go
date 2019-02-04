@@ -20,3 +20,8 @@ func NewMemoryStore() (*MemoryStore, error) {
 func (s MemoryStore) Name() string {
 	return "Memory Store"
 }
+
+// NumSubscriptions returns the number of stored subscriptions.
+func (s *MemoryStore) NumSubscriptions() int {
+	return len(s.subscriptions)
+}
