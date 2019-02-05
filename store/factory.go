@@ -2,11 +2,14 @@ package store
 
 import (
 	"errors"
+
+	"github.com/toru/dexter/subscription"
 )
 
 // Store is an interface that Storage Engines must implement.
 type Store interface {
 	Name() string
+	CreateSubscription(sub *subscription.Subscription) error
 	NumSubscriptions() int
 }
 
