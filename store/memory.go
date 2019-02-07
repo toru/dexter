@@ -25,6 +25,15 @@ func (s MemoryStore) Name() string {
 	return "Memory Store"
 }
 
+// Subscriptions returns a slice of stored subscriptions.
+func (s *MemoryStore) Subscriptions() []subscription.Subscription {
+	subs := make([]subscription.Subscription, 0, len(s.subscriptions))
+	for _, sub := range s.subscriptions {
+		subs = append(subs, sub)
+	}
+	return subs
+}
+
 // CreateSubscription stores the given subscription.
 func (s *MemoryStore) CreateSubscription(sub *subscription.Subscription) error {
 	s.subsMux.Lock()
