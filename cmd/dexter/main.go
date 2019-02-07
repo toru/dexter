@@ -7,6 +7,7 @@ import (
 
 	"github.com/pelletier/go-toml"
 
+	"github.com/toru/dexter/store"
 	"github.com/toru/dexter/subscription"
 	"github.com/toru/dexter/web"
 )
@@ -50,17 +51,22 @@ func main() {
 		}
 	}
 
-	if cfgTree.Has("web") {
-		web.ServeWebAPI(cfg.Web)
+	db, err := store.GetStore("memory")
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	// TODO(toru): This should be backed by a datastore whether it's on-memory
-	// or disk. Write a simple inter-changeable storage mechanism.
-	subscriptions := make([]subscription.Subscription, 0, len(cfg.Endpoints))
+	// Temporary way to bootstrap subscriptions for dev purpose.
 	for _, endpoint := range cfg.Endpoints {
 		sub := subscription.New()
 		sub.SetFeedURL(endpoint)
-		subscriptions = append(subscriptions, *sub)
+		if err := db.CreateSubscription(sub); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	if cfgTree.Has("web") {
+		web.ServeWebAPI(cfg.Web)
 	}
 
 	log.Printf("starting dexter with sync interval: %s\n", cfg.SyncInterval)
@@ -68,7 +74,7 @@ func main() {
 		log.Printf("tick: %d\n", time.Now().Unix())
 
 		// TODO(toru): Concurrency
-		for _, sub := range subscriptions {
+		for _, sub := range db.Subscriptions() {
 			if err := sub.Sync(); err != nil {
 				// Crash for dev-purpose
 				log.Fatal(err)
