@@ -10,7 +10,7 @@ import (
 type Store interface {
 	Name() string
 	Subscriptions() []subscription.Subscription
-	CreateSubscription(sub *subscription.Subscription) error
+	WriteSubscription(sub *subscription.Subscription) error
 	NumSubscriptions() int
 }
 

@@ -60,7 +60,7 @@ func main() {
 	for _, endpoint := range cfg.Endpoints {
 		sub := subscription.New()
 		sub.SetFeedURL(endpoint)
-		if err := db.CreateSubscription(sub); err != nil {
+		if err := db.WriteSubscription(sub); err != nil {
 			log.Fatal(err)
 		}
 	}

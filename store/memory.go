@@ -1,7 +1,6 @@
 package store
 
 import (
-	"fmt"
 	"sync"
 
 	"github.com/toru/dexter/subscription"
@@ -34,17 +33,13 @@ func (s *MemoryStore) Subscriptions() []subscription.Subscription {
 	return subs
 }
 
-// CreateSubscription stores the given subscription.
-func (s *MemoryStore) CreateSubscription(sub *subscription.Subscription) error {
+// WriteSubscription stores the given subscription.
+func (s *MemoryStore) WriteSubscription(sub *subscription.Subscription) error {
 	s.subsMux.Lock()
 	defer s.subsMux.Unlock()
 
 	// TODO(toru): Precalculate a sha224 fingerprint
-	k := sub.FeedURL.String()
-	if _, ok := s.subscriptions[k]; ok {
-		return fmt.Errorf("duplicate key: %s", k)
-	}
-	s.subscriptions[k] = *sub
+	s.subscriptions[sub.FeedURL.String()] = *sub
 	return nil
 }
 
