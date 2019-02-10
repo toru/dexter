@@ -24,18 +24,15 @@ type Subscription struct {
 }
 
 // New returns a new Subscription.
-func New() *Subscription {
-	return &Subscription{}
-}
-
-// SetFeedURL sets the URL for subscription.
-func (s *Subscription) SetFeedURL(feedURL string) error {
+func New(feedURL string) (*Subscription, error) {
 	u, err := url.Parse(feedURL)
 	if err != nil {
-		return err
+		return nil, err
 	}
+
+	s := &Subscription{}
 	s.FeedURL = *u
-	return nil
+	return s, nil
 }
 
 // Sync downloads the data feed and parses it.

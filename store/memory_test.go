@@ -12,7 +12,7 @@ func TestWriteSubscription(t *testing.T) {
 		t.Errorf("Got: %d, Want: 0", n)
 	}
 
-	sub := subscription.New()
+	sub, _ := subscription.New("https://ep.torumk.com/feed")
 	if err := s.WriteSubscription(sub); err != nil {
 		t.Error(err)
 	}

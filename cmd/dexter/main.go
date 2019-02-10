@@ -58,9 +58,11 @@ func main() {
 
 	// Temporary way to bootstrap subscriptions for dev purpose.
 	for _, endpoint := range cfg.Endpoints {
-		sub := subscription.New()
-		sub.SetFeedURL(endpoint)
-		if err := db.WriteSubscription(sub); err != nil {
+		sub, err := subscription.New(endpoint)
+		if err != nil {
+			log.Error(err)
+		}
+		if err = db.WriteSubscription(sub); err != nil {
 			log.Fatal(err)
 		}
 	}
