@@ -15,9 +15,9 @@ import (
 
 // Subscription represents a subscription to a data feed.
 type Subscription struct {
-	FeedURL url.URL // URL of the data endpooint
+	ID      [sha256.Size224]byte // Unique ID
+	FeedURL url.URL              // URL of the data endpooint
 
-	id           [sha256.Size224]byte
 	unreachable  bool // Consider using a enum
 	checksum     [sha256.Size224]byte
 	createdAt    time.Time
@@ -31,10 +31,10 @@ func New(feedURL string) (*Subscription, error) {
 		return nil, err
 	}
 
-	s := &Subscription{}
-	s.id = sha256.Sum224([]byte(feedURL))
-	s.FeedURL = *u
-
+	s := &Subscription{
+		ID:      sha256.Sum224([]byte(feedURL)),
+		FeedURL: *u,
+	}
 	return s, nil
 }
 
