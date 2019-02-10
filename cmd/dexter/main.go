@@ -60,7 +60,7 @@ func main() {
 	for _, endpoint := range cfg.Endpoints {
 		sub, err := subscription.New(endpoint)
 		if err != nil {
-			log.Error(err)
+			log.Print(err)
 		}
 		if err = db.WriteSubscription(sub); err != nil {
 			log.Fatal(err)

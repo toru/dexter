@@ -17,6 +17,7 @@ import (
 type Subscription struct {
 	FeedURL url.URL // URL of the data endpooint
 
+	id           [sha256.Size224]byte
 	unreachable  bool // Consider using a enum
 	checksum     [sha256.Size224]byte
 	createdAt    time.Time
@@ -31,7 +32,9 @@ func New(feedURL string) (*Subscription, error) {
 	}
 
 	s := &Subscription{}
+	s.id = sha256.Sum224([]byte(feedURL))
 	s.FeedURL = *u
+
 	return s, nil
 }
 
