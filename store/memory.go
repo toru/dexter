@@ -1,6 +1,7 @@
 package store
 
 import (
+	"crypto/sha256"
 	"sync"
 
 	"github.com/toru/dexter/subscription"
@@ -9,13 +10,13 @@ import (
 // MemoryStore is a simple memory-backed storage engine.
 type MemoryStore struct {
 	subsMux       sync.RWMutex
-	subscriptions map[string]subscription.Subscription
+	subscriptions map[[sha256.Size224]byte]subscription.Subscription
 }
 
 // NewMemoryStore returns a new MemoryStore.
 func NewMemoryStore() (*MemoryStore, error) {
 	ret := &MemoryStore{}
-	ret.subscriptions = make(map[string]subscription.Subscription)
+	ret.subscriptions = make(map[[sha256.Size224]byte]subscription.Subscription)
 	return ret, nil
 }
 
@@ -38,8 +39,7 @@ func (s *MemoryStore) WriteSubscription(sub *subscription.Subscription) error {
 	s.subsMux.Lock()
 	defer s.subsMux.Unlock()
 
-	// TODO(toru): Precalculate a sha224 fingerprint
-	s.subscriptions[sub.FeedURL.String()] = *sub
+	s.subscriptions[sub.ID] = *sub
 	return nil
 }
 
