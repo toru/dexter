@@ -38,13 +38,19 @@ func New(feedURL string) (*Subscription, error) {
 	return s, nil
 }
 
+// Offline returns a boolean indicating the data feed reachability.
+func (s *Subscription) Offline() bool {
+	// TODO(toru): Somehow allow to retry. Maybe exponential backoff.
+	return s.unreachable
+}
+
 // Sync downloads the data feed and parses it.
 func (s *Subscription) Sync() error {
 	if len(s.FeedURL.String()) == 0 {
 		return fmt.Errorf("subscription has no FeedURL")
 	}
 	if s.unreachable {
-		return fmt.Errorf("subscription is unreachable")
+		return fmt.Errorf("%s is unreachable", s.FeedURL.String())
 	}
 
 	// TODO(toru): This is only for dev-purpose. Craft a proper HTTP
