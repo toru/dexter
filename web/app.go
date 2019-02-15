@@ -2,6 +2,8 @@ package web
 
 import (
 	"log"
+
+	"github.com/toru/dexter/store"
 )
 
 const defaultPort uint = 8084
@@ -11,7 +13,8 @@ type ServerConfig struct {
 	Port   uint   // TCP port to listen for Web API requests
 }
 
-func ServeWebAPI(cfg ServerConfig) error {
+// ServeWebAPI starts the Web API application.
+func ServeWebAPI(cfg ServerConfig, db store.Store) error {
 	log.Println("starting the web api server")
 	if cfg.Port == 0 {
 		log.Printf("port missing, using: %d", defaultPort)

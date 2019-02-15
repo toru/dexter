@@ -68,7 +68,7 @@ func main() {
 	}
 
 	if cfgTree.Has("web") {
-		web.ServeWebAPI(cfg.Web)
+		web.ServeWebAPI(cfg.Web, db)
 	}
 
 	log.Printf("starting dexter with sync interval: %s\n", cfg.SyncInterval)
