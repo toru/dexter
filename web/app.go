@@ -1,7 +1,9 @@
 package web
 
 import (
+	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/toru/dexter/store"
 )
@@ -21,6 +23,9 @@ func ServeWebAPI(cfg ServerConfig, db store.Store) error {
 		cfg.Port = defaultPort
 	}
 
-	// TODO(toru): Start the actual http server. Always favor TLS.
+	// TODO(toru): TLS
+	addr := fmt.Sprintf("%s:%d", cfg.Listen, cfg.Port)
+	log.Fatal(http.ListenAndServe(addr, nil))
+
 	return nil
 }
