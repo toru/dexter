@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/toru/dexter/store"
 )
@@ -37,7 +38,8 @@ func subscriptionsHandlerFunc(db store.Store) http.HandlerFunc {
 		buf, err := json.Marshal(subs)
 		if err != nil {
 			log.Print(err)
-			http.Error(w, "response payload", http.StatusInternalServerError)
+			http.Error(w, strconv.Quote("payload generation"),
+				http.StatusInternalServerError)
 			return
 		}
 		w.Write(buf)
