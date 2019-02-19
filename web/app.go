@@ -24,25 +24,36 @@ type subscriptionPresenter struct {
 }
 
 // GET /subscriptions
-// Renders a list of subscriptions
+// Renders a list of subscriptions.
+func getSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
+	subs := make([]subscriptionPresenter, 0, db.NumSubscriptions())
+	for _, sub := range db.Subscriptions() {
+		subs = append(subs, subscriptionPresenter{
+			hex.EncodeToString(sub.ID[:]),
+			sub.FeedURL.String(),
+		})
+	}
+
+	buf, err := json.Marshal(subs)
+	if err != nil {
+		log.Print(err)
+		http.Error(w, strconv.Quote("payload generation"),
+			http.StatusInternalServerError)
+		return
+	}
+	w.Write(buf)
+}
+
+// Entry point for the /subscriptions resource.
 func subscriptionsHandlerFunc(db store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		subs := make([]subscriptionPresenter, 0, db.NumSubscriptions())
-		for _, sub := range db.Subscriptions() {
-			subs = append(subs, subscriptionPresenter{
-				hex.EncodeToString(sub.ID[:]),
-				sub.FeedURL.String(),
-			})
+		switch r.Method {
+		case http.MethodGet:
+			getSubscriptionsHandler(db, w, r)
+		default:
+			http.Error(w, strconv.Quote("not found"),
+				http.StatusNotFound)
 		}
-
-		buf, err := json.Marshal(subs)
-		if err != nil {
-			log.Print(err)
-			http.Error(w, strconv.Quote("payload generation"),
-				http.StatusInternalServerError)
-			return
-		}
-		w.Write(buf)
 	}
 }
 
