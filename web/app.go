@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	"github.com/toru/dexter/store"
+	"github.com/toru/dexter/subscription"
 )
 
 const defaultPort uint = 8084
@@ -21,6 +22,30 @@ type ServerConfig struct {
 type subscriptionPresenter struct {
 	ID  string `json:"id"`  // Hex representation of the ID
 	URL string `json:"url"` // FeedURL as a string
+}
+
+// POST /subscriptions
+// Creates a new subscription, given a "url" parameter.
+func postSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
+	feedURL := r.PostFormValue("url")
+	if len(feedURL) == 0 {
+		http.Error(w, strconv.Quote("url parameter missing"),
+			http.StatusBadRequest)
+		return
+	}
+
+	sub, err := subscription.New(feedURL)
+	if err != nil {
+		http.Error(w, strconv.Quote(err.Error()),
+			http.StatusInternalServerError)
+		return
+	}
+	if err := db.WriteSubscription(sub); err != nil {
+		http.Error(w, strconv.Quote(err.Error()),
+			http.StatusInternalServerError)
+		return
+	}
+	w.Write([]byte(strconv.Quote("ok")))
 }
 
 // GET /subscriptions
@@ -48,6 +73,8 @@ func getSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Requ
 func subscriptionsHandlerFunc(db store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
+		case http.MethodPost:
+			postSubscriptionsHandler(db, w, r)
 		case http.MethodGet:
 			getSubscriptionsHandler(db, w, r)
 		default:
