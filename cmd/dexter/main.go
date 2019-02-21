@@ -81,11 +81,10 @@ func main() {
 				log.Printf("skipping: %x", sub.ID)
 				continue
 			}
+			log.Printf("syncing: %s\n", sub.FeedURL.String())
 			if err := sub.Sync(); err != nil {
-				// Crash for dev-purpose
-				log.Fatal(err)
+				log.Print(err)
 			}
-			log.Printf("sync'd: %s\n", sub.FeedURL.String())
 		}
 	}
 }
