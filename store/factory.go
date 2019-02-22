@@ -3,6 +3,7 @@ package store
 import (
 	"errors"
 
+	"github.com/toru/dexter/feed"
 	"github.com/toru/dexter/subscription"
 )
 
@@ -12,6 +13,7 @@ type Store interface {
 	Subscriptions() []subscription.Subscription
 	WriteSubscription(sub *subscription.Subscription) error
 	NumSubscriptions() int
+	WriteFeed(f feed.Feed) error
 }
 
 // GetStore returns a Storage Engine based on the given name.

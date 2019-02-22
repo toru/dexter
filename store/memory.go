@@ -2,8 +2,10 @@ package store
 
 import (
 	"crypto/sha256"
+	"errors"
 	"sync"
 
+	"github.com/toru/dexter/feed"
 	"github.com/toru/dexter/subscription"
 )
 
@@ -49,4 +51,9 @@ func (s *MemoryStore) NumSubscriptions() int {
 	defer s.subsMux.RUnlock()
 
 	return len(s.subscriptions)
+}
+
+// WriteFeed stores the given feed, indexed by its ID.
+func (s *MemoryStore) WriteFeed(f feed.Feed) error {
+	return errors.New("unimplemented")
 }
