@@ -2,6 +2,7 @@ package feed
 
 import (
 	"bytes"
+	"crypto/sha256"
 	"encoding/xml"
 	"time"
 )
@@ -75,6 +76,9 @@ type AtomFeed struct {
 	Title        string            `xml:"title"`
 	Updated      time.Time         `xml:"updated"`
 	Entries      []AtomEntry       `xml:"entry"`
+
+	// Dexter specific attributes
+	SubscriptionID [sha256.Size224]byte
 }
 
 // AtomEntry represents the "atom:entry" container element defined in

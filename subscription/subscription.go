@@ -80,10 +80,11 @@ func (s *Subscription) Sync() error {
 	s.checksum = checksum
 
 	if feed.IsAtomFeed(payload) {
-		_, err := feed.ParseAtomFeed(payload)
+		af , err := feed.ParseAtomFeed(payload)
 		if err != nil {
 			return err
 		}
+		af.SubscriptionID = s.ID
 		// TODO(toru): Store the delta to persistent storage
 	} else {
 		return fmt.Errorf("unknown syndication format")
