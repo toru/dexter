@@ -77,7 +77,7 @@ func main() {
 
 		// TODO(toru): Concurrency
 		for _, sub := range db.Subscriptions() {
-			if sub.Offline() {
+			if sub.IsOffline() {
 				log.Printf("skipping: %x", sub.ID)
 				continue
 			}

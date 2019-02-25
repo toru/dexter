@@ -38,8 +38,8 @@ func New(feedURL string) (*Subscription, error) {
 	return s, nil
 }
 
-// Offline returns a boolean indicating the data feed reachability.
-func (s *Subscription) Offline() bool {
+// IsOffline returns a boolean indicating the data feed reachability.
+func (s *Subscription) IsOffline() bool {
 	// TODO(toru): Somehow allow to retry. Maybe exponential backoff.
 	return s.unreachable
 }
