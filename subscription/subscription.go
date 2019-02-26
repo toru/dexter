@@ -80,7 +80,7 @@ func (s *Subscription) Sync() error {
 	s.checksum = checksum
 
 	if feed.IsAtomFeed(payload) {
-		af , err := feed.ParseAtomFeed(payload)
+		af, err := feed.ParseAtomFeed(payload)
 		if err != nil {
 			return err
 		}
