@@ -82,12 +82,18 @@ func main() {
 				continue
 			}
 			log.Printf("syncing: %s\n", sub.FeedURL.String())
-			_, err := sub.FeedSync()
+			dataFeed, err := sub.FeedSync()
 			if err != nil {
 				log.Print(err)
+				continue
 			}
 			if err = db.WriteSubscription(&sub); err != nil {
 				log.Print(err)
+				continue
+			}
+			if err = db.WriteFeed(dataFeed); err != nil {
+				log.Print(err)
+				continue
 			}
 		}
 	}
