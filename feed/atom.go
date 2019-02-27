@@ -68,12 +68,12 @@ type AtomFeed struct {
 	Contributors []AtomContributor `xml:"contributor"`
 	Generator    AtomGenerator     `xml:"generator"`
 	Icon         string            `xml:"icon"`
-	ID           string            `xml:"id"`
+	ID_          string            `xml:"id"`
 	Links        []AtomLink        `xml:"link"`
 	Logo         string            `xml:"logo"`
 	Rights       string            `xml:"rights"`
 	Subtitle     string            `xml:"subtitle"`
-	Title        string            `xml:"title"`
+	Title_       string            `xml:"title"`
 	Updated      time.Time         `xml:"updated"`
 	Entries      []AtomEntry       `xml:"entry"`
 
@@ -125,4 +125,14 @@ func (af *AtomFeed) SetSubscriptionID(id [sha256.Size224]byte) {
 // SubscriptionID implements the Feed interface.
 func (af *AtomFeed) SubscriptionID() [sha256.Size224]byte {
 	return af.subscriptionID
+}
+
+// Title implements the Feed interface.
+func (af *AtomFeed) ID() string {
+	return af.ID_
+}
+
+// Title implements the Feed interface.
+func (af *AtomFeed) Title() string {
+	return af.Title_
 }

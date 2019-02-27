@@ -82,7 +82,7 @@ func main() {
 				continue
 			}
 			log.Printf("syncing: %s\n", sub.FeedURL.String())
-			df, err := sub.FeedSync()
+			_, err := sub.FeedSync()
 			if err != nil {
 				log.Print(err)
 			}
