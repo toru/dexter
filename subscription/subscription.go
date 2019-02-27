@@ -74,8 +74,7 @@ func (s *Subscription) Sync() error {
 
 	checksum := sha256.Sum224(payload)
 	if bytes.Equal(s.checksum[:], checksum[:]) {
-		// There's no new content to process.
-		return nil
+		return fmt.Errorf("no new content: %s", s.FeedURL.String())
 	}
 	s.checksum = checksum
 
