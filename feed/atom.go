@@ -121,3 +121,8 @@ func ParseAtomFeed(doc []byte) (*AtomFeed, error) {
 func (af *AtomFeed) SetSubscriptionID(id [sha256.Size224]byte) {
 	af.subscriptionID = id
 }
+
+// SubscriptionID implements the Feed interface.
+func (af *AtomFeed) SubscriptionID() [sha256.Size224]byte {
+	return af.subscriptionID
+}
