@@ -44,13 +44,13 @@ func (s *Subscription) IsOffline() bool {
 	return s.unreachable
 }
 
-// Sync downloads the data feed and parses it.
-func (s *Subscription) Sync() error {
+// FeedSync downloads the data feed, parses it, and returns a Feed.
+func (s *Subscription) FeedSync() (feed.Feed, error) {
 	if len(s.FeedURL.String()) == 0 {
-		return fmt.Errorf("subscription has no FeedURL")
+		return nil, fmt.Errorf("subscription has no FeedURL")
 	}
 	if s.unreachable {
-		return fmt.Errorf("%s is unreachable", s.FeedURL.String())
+		return nil, fmt.Errorf("unreachable: %s", s.FeedURL.String())
 	}
 
 	// TODO(toru): This is only for dev-purpose. Craft a proper HTTP
@@ -59,35 +59,33 @@ func (s *Subscription) Sync() error {
 	s.lastSyncedAt = time.Now().UTC()
 	if err != nil {
 		s.unreachable = true
-		return err
+		return nil, err
 	}
 	defer resp.Body.Close()
 
 	payload, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if resp.StatusCode != 200 {
 		s.unreachable = true
-		return fmt.Errorf("sync failure (%d): %s", resp.StatusCode, s.FeedURL.String())
+		return nil, fmt.Errorf("sync failure (%d): %s", resp.StatusCode, s.FeedURL.String())
 	}
 
 	checksum := sha256.Sum224(payload)
 	if bytes.Equal(s.checksum[:], checksum[:]) {
-		return fmt.Errorf("no new content: %s", s.FeedURL.String())
+		return nil, fmt.Errorf("no new content: %s", s.FeedURL.String())
 	}
 	s.checksum = checksum
 
 	if feed.IsAtomFeed(payload) {
 		af, err := feed.ParseAtomFeed(payload)
 		if err != nil {
-			return err
+			return nil, err
 		}
 		af.SetSubscriptionID(s.ID)
-		// TODO(toru): Store the delta to persistent storage
+		return af, nil
 	} else {
-		return fmt.Errorf("unknown syndication format")
+		return nil, fmt.Errorf("unknown syndication format")
 	}
-
-	return nil
 }
