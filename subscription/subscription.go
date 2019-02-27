@@ -84,7 +84,7 @@ func (s *Subscription) Sync() error {
 		if err != nil {
 			return err
 		}
-		af.SubscriptionID = s.ID
+		af.SetSubscriptionID(s.ID)
 		// TODO(toru): Store the delta to persistent storage
 	} else {
 		return fmt.Errorf("unknown syndication format")
