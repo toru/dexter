@@ -86,6 +86,9 @@ func main() {
 			if err != nil {
 				log.Print(err)
 			}
+			if err = db.WriteSubscription(&sub); err != nil {
+				log.Print(err)
+			}
 		}
 	}
 }

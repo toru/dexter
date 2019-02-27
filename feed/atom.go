@@ -122,12 +122,7 @@ func (af *AtomFeed) SetSubscriptionID(id [sha256.Size224]byte) {
 	af.subscriptionID = id
 }
 
-// SubscriptionID implements the Feed interface.
-func (af *AtomFeed) SubscriptionID() [sha256.Size224]byte {
-	return af.subscriptionID
-}
-
-// Title implements the Feed interface.
+// ID implements the Feed interface.
 func (af *AtomFeed) ID() string {
 	return af.ID_
 }
@@ -135,4 +130,9 @@ func (af *AtomFeed) ID() string {
 // Title implements the Feed interface.
 func (af *AtomFeed) Title() string {
 	return af.Title_
+}
+
+// SubscriptionID implements the Feed interface.
+func (af *AtomFeed) SubscriptionID() [sha256.Size224]byte {
+	return af.subscriptionID
 }
