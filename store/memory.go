@@ -13,12 +13,16 @@ import (
 type MemoryStore struct {
 	subsMux       sync.RWMutex
 	subscriptions map[[sha256.Size224]byte]subscription.Subscription
+
+	feedsMux sync.RWMutex
+	feeds    map[[sha256.Size224]byte]feed.Feed
 }
 
 // NewMemoryStore returns a new MemoryStore.
 func NewMemoryStore() (*MemoryStore, error) {
 	ret := &MemoryStore{}
 	ret.subscriptions = make(map[[sha256.Size224]byte]subscription.Subscription)
+	ret.feeds = make(map[[sha256.Size224]byte]feed.Feed)
 	return ret, nil
 }
 
