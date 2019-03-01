@@ -13,13 +13,15 @@ import (
 	"github.com/toru/dexter/feed"
 )
 
+const IDLen = sha256.Size224
+
 // Subscription represents a subscription to a data feed.
 type Subscription struct {
-	ID      [sha256.Size224]byte // Unique ID
-	FeedURL url.URL              // URL of the data endpooint
+	ID      [IDLen]byte // Unique ID
+	FeedURL url.URL     // URL of the data endpooint
 
 	unreachable  bool // Consider using a enum
-	checksum     [sha256.Size224]byte
+	checksum     [IDLen]byte
 	createdAt    time.Time
 	lastSyncedAt time.Time
 }

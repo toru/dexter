@@ -1,7 +1,6 @@
 package store
 
 import (
-	"crypto/sha256"
 	"errors"
 	"sync"
 
@@ -12,17 +11,17 @@ import (
 // MemoryStore is a simple memory-backed storage engine.
 type MemoryStore struct {
 	subsMux       sync.RWMutex
-	subscriptions map[[sha256.Size224]byte]subscription.Subscription
+	subscriptions map[[subscription.IDLen]byte]subscription.Subscription
 
 	feedsMux sync.RWMutex
-	feeds    map[[sha256.Size224]byte]feed.Feed
+	feeds    map[[subscription.IDLen]byte]feed.Feed
 }
 
 // NewMemoryStore returns a new MemoryStore.
 func NewMemoryStore() (*MemoryStore, error) {
 	ret := &MemoryStore{}
-	ret.subscriptions = make(map[[sha256.Size224]byte]subscription.Subscription)
-	ret.feeds = make(map[[sha256.Size224]byte]feed.Feed)
+	ret.subscriptions = make(map[[subscription.IDLen]byte]subscription.Subscription)
+	ret.feeds = make(map[[subscription.IDLen]byte]feed.Feed)
 	return ret, nil
 }
 
