@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 )
 
+// Feed is a common interface for all data feed formats.
 type Feed interface {
 	ID() string
 	Title() string

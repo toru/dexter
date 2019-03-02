@@ -14,6 +14,7 @@ import (
 
 const defaultPort uint = 8084
 
+// ServerConfig holds the Web API server settings.
 type ServerConfig struct {
 	Listen string // TCP network address to listen on
 	Port   uint   // TCP port to listen for Web API requests
