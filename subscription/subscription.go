@@ -55,8 +55,7 @@ func (s *Subscription) FeedSync() (feed.Feed, error) {
 		return nil, fmt.Errorf("unreachable: %s", s.FeedURL.String())
 	}
 
-	// TODO(toru): This is only for dev-purpose. Craft a proper HTTP
-	// client with defensive settings like network timeout.
+	// TODO(toru): Proper HTTP client with network timeout.
 	resp, err := http.Get(s.FeedURL.String())
 	s.lastSyncedAt = time.Now().UTC()
 	if err != nil {

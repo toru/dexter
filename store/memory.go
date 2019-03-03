@@ -1,7 +1,6 @@
 package store
 
 import (
-	"errors"
 	"sync"
 
 	"github.com/toru/dexter/feed"
@@ -58,5 +57,9 @@ func (s *MemoryStore) NumSubscriptions() int {
 
 // WriteFeed stores the given feed, indexed by its ID.
 func (s *MemoryStore) WriteFeed(f feed.Feed) error {
-	return errors.New("unimplemented")
+	s.feedsMux.Lock()
+	defer s.feedsMux.Unlock()
+
+	s.feeds[f.SubscriptionID()] = f
+	return nil
 }
