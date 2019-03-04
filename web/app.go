@@ -25,6 +25,14 @@ type subscriptionPresenter struct {
 	URL string `json:"url"` // FeedURL as a string
 }
 
+// Entry point for the /feeds resource.
+func feedsHandlerFunc(db store.Store) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, strconv.Quote("unimplemented"),
+			http.StatusMethodNotAllowed)
+	}
+}
+
 // POST /subscriptions
 // Creates a new subscription, given a "url" parameter.
 func postSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
@@ -93,6 +101,7 @@ func ServeWebAPI(cfg ServerConfig, db store.Store) error {
 		cfg.Port = defaultPort
 	}
 
+	http.Handle("/feeds", feedsHandlerFunc(db))
 	http.Handle("/subscriptions", subscriptionsHandlerFunc(db))
 
 	// TODO(toru): TLS
