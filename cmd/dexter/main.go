@@ -25,7 +25,10 @@ type config struct {
 
 func main() {
 	var cfgPath string
+	var verbose bool
+
 	flag.StringVar(&cfgPath, "cfg", "", "Path to the config file (required)")
+	flag.BoolVar(&verbose, "v", false, "Verbose output")
 	flag.Parse()
 
 	if len(cfgPath) == 0 {
@@ -44,7 +47,9 @@ func main() {
 	}
 
 	if cfg.SyncInterval == 0 {
-		log.Printf("sync_interval missing, using: %s\n", defaultSyncInterval)
+		if verbose {
+			log.Printf("sync_interval missing, using: %s\n", defaultSyncInterval)
+		}
 		cfg.SyncInterval, err = time.ParseDuration(defaultSyncInterval)
 		if err != nil {
 			log.Fatal(err)
