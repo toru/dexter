@@ -58,6 +58,18 @@ func (s *MemoryStore) NumSubscriptions() int {
 	return len(s.subscriptions)
 }
 
+// Feeds returns a slice of stored feeds.
+func (s *MemoryStore) Feeds() []feed.Feed {
+	s.feedsMux.RLock()
+	defer s.feedsMux.RUnlock()
+
+	feeds := make([]feed.Feed, 0, s.NumSubscriptions())
+	for _, f := range s.feeds {
+		feeds = append(feeds, f)
+	}
+	return feeds
+}
+
 // WriteFeed stores the given feed, indexed by its ID.
 func (s *MemoryStore) WriteFeed(f feed.Feed) error {
 	s.feedsMux.Lock()

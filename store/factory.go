@@ -13,6 +13,7 @@ type Store interface {
 	Subscriptions() []subscription.Subscription
 	WriteSubscription(sub *subscription.Subscription) error
 	NumSubscriptions() int
+	Feeds() []feed.Feed
 	WriteFeed(f feed.Feed) error
 }
 
