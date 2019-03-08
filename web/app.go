@@ -20,16 +20,41 @@ type ServerConfig struct {
 	Port   uint   // TCP port to listen for Web API requests
 }
 
+type feedPresenter struct {
+	ID    string `json:"id"`    // Feed ID
+	Title string `json:"title"` // Feed Title
+}
+
 type subscriptionPresenter struct {
 	ID  string `json:"id"`  // Hex representation of the ID
 	URL string `json:"url"` // FeedURL as a string
 }
 
+// GET /feeds
+// Renders a list of feeds.
+func getFeedsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
+	feeds := make([]feedPresenter, 0, db.NumSubscriptions())
+	for _, f := range db.Feeds() {
+		feeds = append(feeds, feedPresenter{
+			f.ID(),
+			f.Title(),
+		})
+	}
+
+	buf, err := json.Marshal(feeds)
+	if err != nil {
+		log.Print(err)
+		http.Error(w, strconv.Quote("payload generation"),
+			http.StatusInternalServerError)
+		return
+	}
+	w.Write(buf)
+}
+
 // Entry point for the /feeds resource.
 func feedsHandlerFunc(db store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		http.Error(w, strconv.Quote("unimplemented"),
-			http.StatusMethodNotAllowed)
+		getFeedsHandler(db, w, r)
 	}
 }
 
