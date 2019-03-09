@@ -54,6 +54,10 @@ func getFeedsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
 // Entry point for the /feeds resource.
 func feedsHandlerFunc(db store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, strconv.Quote("not found"), http.StatusNotFound)
+			return
+		}
 		getFeedsHandler(db, w, r)
 	}
 }
