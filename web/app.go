@@ -21,8 +21,9 @@ type ServerConfig struct {
 }
 
 type feedPresenter struct {
-	ID    string `json:"id"`    // Feed ID
-	Title string `json:"title"` // Feed Title
+	ID             string `json:"id"`              // Feed ID
+	SubscriptionID string `json:"subscription_id"` // Subscription ID
+	Title          string `json:"title"`           // Feed Title
 }
 
 type subscriptionPresenter struct {
@@ -35,8 +36,10 @@ type subscriptionPresenter struct {
 func getFeedsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
 	feeds := make([]feedPresenter, 0, db.NumSubscriptions())
 	for _, f := range db.Feeds() {
+		rawSubID := f.SubscriptionID()
 		feeds = append(feeds, feedPresenter{
 			f.ID(),
+			hex.EncodeToString(rawSubID[:]),
 			f.Title(),
 		})
 	}
