@@ -31,6 +31,32 @@ type subscriptionPresenter struct {
 	URL string `json:"url"` // FeedURL as a string
 }
 
+// Entry point for the /feeds resource.
+func feedsResourceHandlerFunc(db store.Store) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, strconv.Quote("not found"), http.StatusNotFound)
+			return
+		}
+		getFeedsHandler(db, w, r)
+	}
+}
+
+// Entry point for the /subscriptions resource.
+func subscriptionsResourceHandlerFunc(db store.Store) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodPost:
+			postSubscriptionsHandler(db, w, r)
+		case http.MethodGet:
+			getSubscriptionsHandler(db, w, r)
+		default:
+			http.Error(w, strconv.Quote("not found"),
+				http.StatusNotFound)
+		}
+	}
+}
+
 // GET /feeds
 // Renders a list of feeds.
 func getFeedsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
@@ -52,17 +78,6 @@ func getFeedsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Write(buf)
-}
-
-// Entry point for the /feeds resource.
-func feedsHandlerFunc(db store.Store) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodGet {
-			http.Error(w, strconv.Quote("not found"), http.StatusNotFound)
-			return
-		}
-		getFeedsHandler(db, w, r)
-	}
 }
 
 // POST /subscriptions
@@ -110,21 +125,6 @@ func getSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Requ
 	w.Write(buf)
 }
 
-// Entry point for the /subscriptions resource.
-func subscriptionsHandlerFunc(db store.Store) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		switch r.Method {
-		case http.MethodPost:
-			postSubscriptionsHandler(db, w, r)
-		case http.MethodGet:
-			getSubscriptionsHandler(db, w, r)
-		default:
-			http.Error(w, strconv.Quote("not found"),
-				http.StatusNotFound)
-		}
-	}
-}
-
 // ServeWebAPI starts the Web API application.
 func ServeWebAPI(cfg ServerConfig, db store.Store) error {
 	log.Println("starting the web api server")
@@ -133,8 +133,8 @@ func ServeWebAPI(cfg ServerConfig, db store.Store) error {
 		cfg.Port = defaultPort
 	}
 
-	http.Handle("/feeds", feedsHandlerFunc(db))
-	http.Handle("/subscriptions", subscriptionsHandlerFunc(db))
+	http.Handle("/feeds", feedsResourceHandlerFunc(db))
+	http.Handle("/subscriptions", subscriptionsResourceHandlerFunc(db))
 
 	// TODO(toru): TLS
 	addr := fmt.Sprintf("%s:%d", cfg.Listen, cfg.Port)
