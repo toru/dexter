@@ -23,3 +23,8 @@ TBD: Likely support TLS via the [tls] configuration.
 ### Authentication
 
 TBD: Likely support Basic auth and JSON Web Tokens (JWT).
+
+## Dependencies
+
+Dexter currently has no external dependencies. Let's keep it that way
+unless there's a very strong reason.
