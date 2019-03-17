@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/toru/dexter/store"
 	"github.com/toru/dexter/subscription"
@@ -29,6 +30,12 @@ type feedPresenter struct {
 type subscriptionPresenter struct {
 	ID  string `json:"id"`  // Hex representation of the ID
 	URL string `json:"url"` // FeedURL as a string
+}
+
+func splitPath(path string) []string {
+	return strings.FieldsFunc(path, func(c rune) bool {
+		return c == '/'
+	})
 }
 
 // Entry point for the /feeds resource.
