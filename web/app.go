@@ -41,7 +41,9 @@ func splitPath(path string) []string {
 // Entry point for the /feeds resource.
 func feedsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodGet {
+		tokens := splitPath(r.URL.Path)
+
+		if r.Method != http.MethodGet || len(tokens) != 1 {
 			http.Error(w, strconv.Quote("not found"), http.StatusNotFound)
 			return
 		}
@@ -140,7 +142,10 @@ func ServeWebAPI(cfg ServerConfig, db store.Store) error {
 		cfg.Port = defaultPort
 	}
 
+	// TODO(toru): Duplicate route definition just to work around the
+        // trailing slash enforcement is silly. Implement our own ServeHTTP().
 	http.Handle("/feeds", feedsResourceHandlerFunc(db))
+	http.Handle("/feeds/", feedsResourceHandlerFunc(db))
 	http.Handle("/subscriptions", subscriptionsResourceHandlerFunc(db))
 
 	// TODO(toru): TLS
