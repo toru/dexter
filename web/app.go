@@ -143,7 +143,7 @@ func ServeWebAPI(cfg ServerConfig, db store.Store) error {
 	}
 
 	// TODO(toru): Duplicate route definition just to work around the
-        // trailing slash enforcement is silly. Implement our own ServeHTTP().
+	// trailing slash enforcement is silly. Implement our own ServeHTTP().
 	http.Handle("/feeds", feedsResourceHandlerFunc(db))
 	http.Handle("/feeds/", feedsResourceHandlerFunc(db))
 	http.Handle("/subscriptions", subscriptionsResourceHandlerFunc(db))
