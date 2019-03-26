@@ -4,23 +4,24 @@ import (
 	"sync"
 
 	"github.com/toru/dexter/feed"
+	"github.com/toru/dexter/index"
 	"github.com/toru/dexter/subscription"
 )
 
 // MemoryStore is a simple memory-backed storage engine.
 type MemoryStore struct {
 	subsMux       sync.RWMutex
-	subscriptions map[[subscription.IDLen]byte]subscription.Subscription
+	subscriptions map[index.DexID]subscription.Subscription
 
 	feedsMux sync.RWMutex
-	feeds    map[[subscription.IDLen]byte]feed.Feed
+	feeds    map[index.DexID]feed.Feed
 }
 
 // NewMemoryStore returns a new MemoryStore.
 func NewMemoryStore() (*MemoryStore, error) {
 	ret := &MemoryStore{}
-	ret.subscriptions = make(map[[subscription.IDLen]byte]subscription.Subscription)
-	ret.feeds = make(map[[subscription.IDLen]byte]feed.Feed)
+	ret.subscriptions = make(map[index.DexID]subscription.Subscription)
+	ret.feeds = make(map[index.DexID]feed.Feed)
 	return ret, nil
 }
 
