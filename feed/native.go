@@ -1,12 +1,12 @@
 package feed
 
 import (
-	"crypto/sha256"
+	"github.com/toru/dexter/index"
 )
 
 // Feed is a common interface for all data feed formats.
 type Feed interface {
 	ID() string
 	Title() string
-	SubscriptionID() [sha256.Size224]byte
+	SubscriptionID() index.DexID
 }

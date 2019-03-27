@@ -2,9 +2,10 @@ package feed
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"encoding/xml"
 	"time"
+
+	"github.com/toru/dexter/index"
 )
 
 const atomHint = "http://www.w3.org/2005/Atom"
@@ -78,7 +79,7 @@ type AtomFeed struct {
 	Entries      []AtomEntry       `xml:"entry"`
 
 	// Dexter specific attributes
-	subscriptionID [sha256.Size224]byte
+	subscriptionID index.DexID
 }
 
 // AtomEntry represents the "atom:entry" container element defined in
@@ -118,7 +119,7 @@ func ParseAtomFeed(doc []byte) (*AtomFeed, error) {
 }
 
 // SetSubscriptionID sets the given ID to the feed.
-func (af *AtomFeed) SetSubscriptionID(id [sha256.Size224]byte) {
+func (af *AtomFeed) SetSubscriptionID(id index.DexID) {
 	af.subscriptionID = id
 }
 
@@ -133,6 +134,6 @@ func (af *AtomFeed) Title() string {
 }
 
 // SubscriptionID implements the Feed interface.
-func (af *AtomFeed) SubscriptionID() [sha256.Size224]byte {
+func (af *AtomFeed) SubscriptionID() index.DexID {
 	return af.subscriptionID
 }

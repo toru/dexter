@@ -33,7 +33,7 @@ func New(feedURL string) (*Subscription, error) {
 	}
 
 	s := &Subscription{
-		ID:      sha256.Sum224([]byte(feedURL)),
+		ID:      index.NewDexIDFromString(feedURL),
 		FeedURL: *u,
 	}
 	return s, nil
