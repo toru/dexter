@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/toru/dexter/feed"
+	"github.com/toru/dexter/index"
 	"github.com/toru/dexter/subscription"
 )
 
@@ -14,6 +15,7 @@ type Store interface {
 	WriteSubscription(sub *subscription.Subscription) error
 	NumSubscriptions() int
 	Feeds() []feed.Feed
+	Feed(index.DexID) (feed.Feed, bool)
 	WriteFeed(f feed.Feed) error
 }
 

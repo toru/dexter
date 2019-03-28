@@ -71,6 +71,18 @@ func (s *MemoryStore) Feeds() []feed.Feed {
 	return feeds
 }
 
+// Feed finds a feed by its unique ID.
+func (s *MemoryStore) Feed(id index.DexID) (feed.Feed, bool) {
+	s.feedsMux.RLock()
+	defer s.feedsMux.RUnlock()
+
+	f, ok := s.feeds[id]
+	if !ok {
+		return nil, false
+	}
+	return f, true
+}
+
 // WriteFeed stores the given feed, indexed by its ID.
 func (s *MemoryStore) WriteFeed(f feed.Feed) error {
 	s.feedsMux.Lock()
