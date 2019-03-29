@@ -3,6 +3,7 @@ package store
 import (
 	"testing"
 
+	"github.com/toru/dexter/feed"
 	"github.com/toru/dexter/subscription"
 )
 
@@ -17,6 +18,18 @@ func TestWriteSubscription(t *testing.T) {
 		t.Error(err)
 	}
 	if n := s.NumSubscriptions(); n != 1 {
+		t.Errorf("Got: %d, Want: 1", n)
+	}
+}
+
+func TestWriteFeed(t *testing.T) {
+	s, _ := NewMemoryStore()
+	f := &feed.AtomFeed{}
+
+	if err := s.WriteFeed(f); err != nil {
+		t.Error(err)
+	}
+	if n := len(s.Feeds()); n != 1 {
 		t.Errorf("Got: %d, Want: 1", n)
 	}
 }
