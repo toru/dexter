@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/toru/dexter/feed"
+	"github.com/toru/dexter/index"
 	"github.com/toru/dexter/subscription"
 )
 
@@ -24,12 +25,18 @@ func TestWriteSubscription(t *testing.T) {
 
 func TestWriteFeed(t *testing.T) {
 	s, _ := NewMemoryStore()
+	k := index.NewDexIDFromString("ok")
 	f := &feed.AtomFeed{}
+	f.SetSubscriptionID(k)
 
 	if err := s.WriteFeed(f); err != nil {
 		t.Error(err)
 	}
 	if n := len(s.Feeds()); n != 1 {
 		t.Errorf("Got: %d, Want: 1", n)
+	}
+	_, ok := s.Feed(k)
+	if !ok {
+		t.Errorf("Got: !ok, Want: ok")
 	}
 }
