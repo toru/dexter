@@ -1,7 +1,6 @@
 package web
 
 import (
-	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -9,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/toru/dexter/index"
 	"github.com/toru/dexter/store"
 	"github.com/toru/dexter/subscription"
 )
@@ -74,7 +74,7 @@ func getFeedsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
 		rawSubID := f.SubscriptionID()
 		feeds = append(feeds, feedPresenter{
 			f.ID(),
-			hex.EncodeToString(rawSubID[:]),
+			index.DexIDToHexDigest(rawSubID),
 			f.Title(),
 		})
 	}
@@ -119,7 +119,7 @@ func getSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Requ
 	subs := make([]subscriptionPresenter, 0, db.NumSubscriptions())
 	for _, sub := range db.Subscriptions() {
 		subs = append(subs, subscriptionPresenter{
-			hex.EncodeToString(sub.ID[:]),
+			index.DexIDToHexDigest(sub.ID),
 			sub.FeedURL.String(),
 		})
 	}
