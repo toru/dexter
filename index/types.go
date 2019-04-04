@@ -15,6 +15,17 @@ func NewDexIDFromString(src string) DexID {
 	return sha256.Sum224([]byte(src))
 }
 
+// NewDexIDFromHexDigest returns a new DexID based on the given hex digest.
+func NewDexIDFromHexDigest(src string) (DexID, error) {
+	rv := DexID{}
+	raw, err := hex.DecodeString(src)
+	if err != nil {
+		return rv, err
+	}
+	copy(rv[:], raw)
+	return rv, nil
+}
+
 // DexIDToHexDigest returns the hexadecimal representation of the given
 // DexID as a string. Sadly, DexID can't be used as a method receiver.
 func DexIDToHexDigest(id DexID) string {
