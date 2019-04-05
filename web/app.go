@@ -43,11 +43,16 @@ func feedsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tokens := splitPath(r.URL.Path)
 
-		if r.Method != http.MethodGet || len(tokens) != 1 {
+		if r.Method != http.MethodGet || len(tokens) > 2 {
 			http.Error(w, strconv.Quote("not found"), http.StatusNotFound)
 			return
 		}
-		getFeedsHandler(db, w, r)
+
+	        if len(tokens) == 1 {
+			getFeedsHandler(db, w, r)
+		} else {
+			getFeedHandler(db, tokens[1], w, r)
+		}
 	}
 }
 
@@ -64,6 +69,31 @@ func subscriptionsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 				http.StatusNotFound)
 		}
 	}
+}
+
+// GET /feeds/:id
+// Renders a feed that was found with the given ID.
+func getFeedHandler(db store.Store, id string, w http.ResponseWriter, r *http.Request) {
+	xid, err := index.NewDexIDFromHexDigest(id)
+	if err != nil {
+		http.Error(w, strconv.Quote("invalid feed id"), http.StatusBadRequest)
+		return
+	}
+	f, ok := db.Feed(xid)
+	if !ok {
+		http.Error(w, strconv.Quote("not found"), http.StatusNotFound)
+		return
+	}
+	subID := index.DexIDToHexDigest(f.SubscriptionID())
+	rv := feedPresenter{f.ID(), subID, f.Title()}
+	buf, err := json.Marshal(rv)
+	if err != nil {
+		log.Print(err)
+		http.Error(w, strconv.Quote("payload generation"),
+			http.StatusInternalServerError)
+		return
+	}
+	w.Write(buf)
 }
 
 // GET /feeds
