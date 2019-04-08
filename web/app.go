@@ -48,7 +48,7 @@ func feedsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 			return
 		}
 
-	        if len(tokens) == 1 {
+		if len(tokens) == 1 {
 			getFeedsHandler(db, w, r)
 		} else {
 			getFeedHandler(db, tokens[1], w, r)
