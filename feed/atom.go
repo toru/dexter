@@ -97,6 +97,9 @@ type AtomEntry struct {
 	Summary      atomText          `xml:"summary"`
 	Title        string            `xml:"title"`
 	Updated      time.Time         `xml:"updated"`
+
+	// Dexter specific attributes
+	feedID index.DexID
 }
 
 // Heuristically determines if the document is an Atom feed by searching
@@ -136,4 +139,9 @@ func (af *AtomFeed) Title() string {
 // SubscriptionID implements the Feed interface.
 func (af *AtomFeed) SubscriptionID() index.DexID {
 	return af.subscriptionID
+}
+
+// SetFeedID sets the given ID to the entry.
+func (ae *AtomEntry) SetFeedID(id index.DexID) {
+	ae.feedID = id
 }
