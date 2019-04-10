@@ -89,12 +89,12 @@ type AtomEntry struct {
 	Categories   []AtomCategory    `xml:"category"`
 	Content      atomText          `xml:"content"`
 	Contributors []AtomContributor `xml:"contributor"`
-	ID           string            `xml:"id"`
+	ID_          string            `xml:"id"`
 	Links        []AtomLink        `xml:"link"`
 	Published    time.Time         `xml:"published"`
 	Rights       string            `xml:"rights"`
 	Source       string            `xml:"source"`
-	Summary      atomText          `xml:"summary"`
+	Summary_     atomText          `xml:"summary"`
 	Title        string            `xml:"title"`
 	Updated      time.Time         `xml:"updated"`
 
@@ -144,4 +144,19 @@ func (af *AtomFeed) SubscriptionID() index.DexID {
 // SetFeedID sets the given ID to the entry.
 func (ae *AtomEntry) SetFeedID(id index.DexID) {
 	ae.feedID = id
+}
+
+// FeedID implements the Entry interface.
+func (ae *AtomEntry) FeedID() index.DexID {
+	return ae.feedID
+}
+
+// ID implements the Entry interface.
+func (ae *AtomEntry) ID() string {
+	return ae.ID_
+}
+
+// Summary implements the Entry interface.
+func (ae *AtomEntry) Summary() string {
+	return ae.Summary_.Value
 }
