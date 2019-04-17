@@ -76,7 +76,7 @@ type AtomFeed struct {
 	Subtitle     string            `xml:"subtitle"`
 	Title_       string            `xml:"title"`
 	Updated      time.Time         `xml:"updated"`
-	Entries      []AtomEntry       `xml:"entry"`
+	Entries_     []AtomEntry       `xml:"entry"`
 
 	// Dexter specific attributes
 	subscriptionID index.DexID
@@ -139,6 +139,15 @@ func (af *AtomFeed) Title() string {
 // SubscriptionID implements the Feed interface.
 func (af *AtomFeed) SubscriptionID() index.DexID {
 	return af.subscriptionID
+}
+
+// Entries implements the Feed interface.
+func (af *AtomFeed) Entries() []Entry {
+	rv := make([]Entry, len(af.Entries_))
+	for i := range af.Entries_ {
+		rv[i] = &af.Entries_[i]
+	}
+	return rv
 }
 
 // SetFeedID sets the given ID to the entry.

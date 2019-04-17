@@ -9,6 +9,7 @@ type Feed interface {
 	ID() string
 	Title() string
 	SubscriptionID() index.DexID
+	Entries() []Entry
 }
 
 // Entry is a common interface for all data entry formats.
