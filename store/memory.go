@@ -93,3 +93,17 @@ func (s *MemoryStore) WriteFeed(f feed.Feed) error {
 	s.feeds[f.SubscriptionID()] = f
 	return nil
 }
+
+// Entries returns a slice of feed.Entry that belongs to a feed that
+// matches the given identifier.
+func (s *MemoryStore) Entries(id index.DexID) []feed.Entry {
+	s.feedsMux.RLock()
+	defer s.feedsMux.RUnlock()
+
+	var rv []feed.Entry
+	f, ok := s.feeds[id]
+	if ok {
+		rv = f.Entries()
+	}
+	return rv
+}

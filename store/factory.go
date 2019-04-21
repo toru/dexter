@@ -17,6 +17,7 @@ type Store interface {
 	Feeds() []feed.Feed
 	Feed(index.DexID) (feed.Feed, bool)
 	WriteFeed(f feed.Feed) error
+	Entries(index.DexID) []feed.Entry
 }
 
 // GetStore returns a Storage Engine based on the given name.
