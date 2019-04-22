@@ -21,6 +21,11 @@ type ServerConfig struct {
 	Port   uint   // TCP port to listen for Web API requests
 }
 
+type entryPresenter struct {
+	ID      string `json:"id"`      // Entry ID
+	Summary string `json:"summary"` // Entry Summary
+}
+
 type feedPresenter struct {
 	ID             string `json:"id"`              // Feed ID
 	SubscriptionID string `json:"subscription_id"` // Subscription ID
