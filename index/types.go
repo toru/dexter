@@ -6,6 +6,10 @@ import (
 	"encoding/hex"
 )
 
+const (
+	DexHexIDLen = 56
+)
+
 // DexID is a 224-bit (or 28-byte) long primary key that every
 // object inside Dexter has been alloted with.
 type DexID = [sha256.Size224]byte
