@@ -43,13 +43,17 @@ func splitPath(path string) []string {
 	})
 }
 
+func render404(w http.ResponseWriter) {
+	http.Error(w, strconv.Quote("not found"), http.StatusNotFound)
+}
+
 // Entry point for the /feeds resource.
 func feedsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tokens := splitPath(r.URL.Path)
 
 		if r.Method != http.MethodGet || len(tokens) > 2 {
-			http.Error(w, strconv.Quote("not found"), http.StatusNotFound)
+			render404(w)
 			return
 		}
 
@@ -70,8 +74,7 @@ func subscriptionsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 		case http.MethodGet:
 			getSubscriptionsHandler(db, w, r)
 		default:
-			http.Error(w, strconv.Quote("not found"),
-				http.StatusNotFound)
+			render404(w)
 		}
 	}
 }
@@ -86,7 +89,7 @@ func getFeedHandler(db store.Store, id string, w http.ResponseWriter, r *http.Re
 	}
 	f, ok := db.Feed(xid)
 	if !ok {
-		http.Error(w, strconv.Quote("not found"), http.StatusNotFound)
+		render404(w)
 		return
 	}
 	subID := index.DexIDToHexDigest(f.SubscriptionID())
