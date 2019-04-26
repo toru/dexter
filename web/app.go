@@ -51,16 +51,23 @@ func render404(w http.ResponseWriter) {
 func feedsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tokens := splitPath(r.URL.Path)
+		numTokens := len(tokens)
 
-		if r.Method != http.MethodGet || len(tokens) > 2 {
+		if r.Method != http.MethodGet || numTokens > 3 {
 			render404(w)
 			return
 		}
 
-		if len(tokens) == 1 {
+		if numTokens == 1 {
 			getFeedsHandler(db, w, r)
-		} else {
+		} else if numTokens == 2 {
 			getFeedHandler(db, tokens[1], w, r)
+		} else {
+			if len(tokens[2]) != index.DexHexIDLen {
+				render404(w)
+				return
+			}
+			w.Write([]byte("unimplemented"))
 		}
 	}
 }
