@@ -57,13 +57,19 @@ func feedsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 			render404(w)
 			return
 		}
+		if numTokens > 1 {
+			if len(tokens[1]) != index.DexHexIDLen {
+				render404(w)
+				return
+			}
+		}
 
 		if numTokens == 1 {
 			getFeedsHandler(db, w, r)
 		} else if numTokens == 2 {
 			getFeedHandler(db, tokens[1], w, r)
 		} else {
-			if len(tokens[2]) != index.DexHexIDLen {
+			if tokens[2] != "entries" {
 				render404(w)
 				return
 			}
