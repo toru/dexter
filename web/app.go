@@ -73,7 +73,7 @@ func feedsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 				render404(w)
 				return
 			}
-			w.Write([]byte("unimplemented"))
+			getFeedEntriesHandler(db, tokens[1], w, r)
 		}
 	}
 }
@@ -90,6 +90,12 @@ func subscriptionsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 			render404(w)
 		}
 	}
+}
+
+// GET /feeds/:id/entries
+// Renders a list of entries associated to the given feed ID.
+func getFeedEntriesHandler(db store.Store, feedID string, w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("unimplemented"))
 }
 
 // GET /feeds/:id
