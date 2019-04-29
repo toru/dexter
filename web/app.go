@@ -43,6 +43,10 @@ func splitPath(path string) []string {
 	})
 }
 
+func render400(w http.ResponseWriter, reason string) {
+	http.Error(w, strconv.Quote(reason), http.StatusBadRequest)
+}
+
 func render404(w http.ResponseWriter) {
 	http.Error(w, strconv.Quote("not found"), http.StatusNotFound)
 }
@@ -103,7 +107,7 @@ func getFeedEntriesHandler(db store.Store, feedID string, w http.ResponseWriter,
 func getFeedHandler(db store.Store, id string, w http.ResponseWriter, r *http.Request) {
 	xid, err := index.NewDexIDFromHexDigest(id)
 	if err != nil {
-		http.Error(w, strconv.Quote("invalid feed id"), http.StatusBadRequest)
+		render400(w, "invalid feed id")
 		return
 	}
 	f, ok := db.Feed(xid)
@@ -151,8 +155,7 @@ func getFeedsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
 func postSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
 	feedURL := r.PostFormValue("url")
 	if len(feedURL) == 0 {
-		http.Error(w, strconv.Quote("url parameter missing"),
-			http.StatusBadRequest)
+		render400(w, "url parameter missing")
 		return
 	}
 
