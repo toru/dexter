@@ -51,6 +51,10 @@ func render404(w http.ResponseWriter) {
 	http.Error(w, strconv.Quote("not found"), http.StatusNotFound)
 }
 
+func render500(w http.ResponseWriter, reason string) {
+	http.Error(w, strconv.Quote(reason), http.StatusInternalServerError)
+}
+
 // Entry point for the /feeds resource.
 func feedsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -120,8 +124,7 @@ func getFeedHandler(db store.Store, id string, w http.ResponseWriter, r *http.Re
 	buf, err := json.Marshal(rv)
 	if err != nil {
 		log.Print(err)
-		http.Error(w, strconv.Quote("payload generation"),
-			http.StatusInternalServerError)
+		render500(w, "payload generation")
 		return
 	}
 	w.Write(buf)
@@ -143,8 +146,7 @@ func getFeedsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
 	buf, err := json.Marshal(feeds)
 	if err != nil {
 		log.Print(err)
-		http.Error(w, strconv.Quote("payload generation"),
-			http.StatusInternalServerError)
+		render500(w, "payload generation")
 		return
 	}
 	w.Write(buf)
@@ -161,13 +163,11 @@ func postSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Req
 
 	sub, err := subscription.New(feedURL)
 	if err != nil {
-		http.Error(w, strconv.Quote(err.Error()),
-			http.StatusInternalServerError)
+		render500(w, err.Error())
 		return
 	}
 	if err := db.WriteSubscription(sub); err != nil {
-		http.Error(w, strconv.Quote(err.Error()),
-			http.StatusInternalServerError)
+		render500(w, err.Error())
 		return
 	}
 	w.Write([]byte(strconv.Quote("ok")))
@@ -187,8 +187,7 @@ func getSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Requ
 	buf, err := json.Marshal(subs)
 	if err != nil {
 		log.Print(err)
-		http.Error(w, strconv.Quote("payload generation"),
-			http.StatusInternalServerError)
+		render500(w, "payload generation")
 		return
 	}
 	w.Write(buf)
