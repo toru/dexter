@@ -13,7 +13,7 @@ import (
 	"github.com/toru/dexter/subscription"
 )
 
-const defaultPort uint = 8084
+const defaultPort = 8081
 
 // ServerConfig holds the Web API server settings.
 type ServerConfig struct {
