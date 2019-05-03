@@ -103,7 +103,32 @@ func subscriptionsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 // GET /feeds/:id/entries
 // Renders a list of entries associated to the given feed ID.
 func getFeedEntriesHandler(db store.Store, feedID string, w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("unimplemented"))
+	xid, err := index.NewDexIDFromHexDigest(feedID)
+	if err != nil {
+		render400(w, "invalid feed id")
+		return
+	}
+	f, ok := db.Feed(xid)
+	if !ok {
+		render404(w)
+		return
+	}
+
+	entries := make([]entryPresenter, 0, len(f.Entries()))
+	for _, entry := range f.Entries() {
+		entries = append(entries, entryPresenter{
+			entry.ID(),
+			entry.Summary(),
+		})
+	}
+
+	buf, err := json.Marshal(entries)
+	if err != nil {
+		log.Print(err)
+		render500(w, "payload generation")
+		return
+	}
+	w.Write(buf)
 }
 
 // GET /feeds/:id
