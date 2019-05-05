@@ -109,6 +109,9 @@ func IsAtomFeed(doc []byte) bool {
 	if upper > detectionLimit {
 		upper = detectionLimit
 	}
+
+	// TODO: Sadly this is not enough, as shown by the NASA feeds.
+	// Partially parse the given document and evaluate from there.
 	return bytes.Contains(doc[:upper], []byte(atomHint))
 }
 
