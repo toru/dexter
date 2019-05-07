@@ -4,6 +4,7 @@ package index
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"errors"
 )
 
 const (
@@ -21,6 +22,9 @@ func NewDexIDFromString(src string) DexID {
 
 // NewDexIDFromHexDigest returns a new DexID based on the given hex digest.
 func NewDexIDFromHexDigest(src string) (DexID, error) {
+	if len(src) != DexHexIDLen {
+		return DexID{}, errors.New("invalid dexter id")
+	}
 	rv := DexID{}
 	raw, err := hex.DecodeString(src)
 	if err != nil {
