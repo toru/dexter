@@ -1,6 +1,6 @@
 package feed
 
-import(
+import (
 	"bytes"
 )
 
