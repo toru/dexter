@@ -7,9 +7,6 @@ import (
 	"github.com/toru/dexter/index"
 )
 
-const atomHint = "http://www.w3.org/2005/Atom"
-const detectionLimit = 1024
-
 // atomText represents atom(Plain|XHTML)TextConstruct defined in
 // RFC 4287 Section 3.1
 type atomText struct {
