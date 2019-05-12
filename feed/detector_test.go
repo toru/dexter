@@ -15,17 +15,3 @@ func TestFeedFormat(t *testing.T) {
 		t.Errorf("Got: %d, Want: %d", got, UnknownFeedFormat)
 	}
 }
-
-func TestIsAtomFeed(t *testing.T) {
-	t.Run("with an atom document", func(t *testing.T) {
-		if !IsAtomFeed(atomDoc) {
-			t.Errorf("Got: false, Want: true")
-		}
-	})
-
-	t.Run("with an rss document", func(t *testing.T) {
-		if IsAtomFeed(rssDoc) {
-			t.Errorf("Got: true, Want: false")
-		}
-	})
-}

@@ -14,7 +14,7 @@ const (
 )
 
 func FeedFormat(doc []byte) int {
-	if IsAtomFeed(doc) {
+	if isAtomFeed(doc) {
 		return AtomFeedFormat
 	}
 	return UnknownFeedFormat
@@ -22,7 +22,7 @@ func FeedFormat(doc []byte) int {
 
 // Heuristically determines if the document is an Atom feed by searching
 // for the format namespace. Search is given up after 1024 bytes.
-func IsAtomFeed(doc []byte) bool {
+func isAtomFeed(doc []byte) bool {
 	upper := len(doc)
 	if upper > detectionLimit {
 		upper = detectionLimit

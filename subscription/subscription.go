@@ -78,7 +78,7 @@ func (s *Subscription) FeedSync() (feed.Feed, error) {
 	}
 	s.checksum = checksum
 
-	if feed.IsAtomFeed(payload) {
+	if feed.FeedFormat(payload) == feed.AtomFeedFormat {
 		af, err := feed.ParseAtomFeed(payload)
 		if err != nil {
 			return nil, err
