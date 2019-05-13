@@ -9,7 +9,8 @@ const detectionLimit = 1024
 
 const (
 	UnknownFeedFormat = iota
-	RSSFeedFormat
+	RSS1FeedFormat
+	RSS2FeedFormat
 	AtomFeedFormat
 )
 
