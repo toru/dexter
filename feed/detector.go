@@ -2,6 +2,7 @@ package feed
 
 import (
 	"bytes"
+	"encoding/xml"
 )
 
 const atomHint = "http://www.w3.org/2005/Atom"
@@ -15,10 +16,23 @@ const (
 )
 
 func FeedFormat(doc []byte) int {
-	if isAtomFeed(doc) {
+	if isRSS2Feed(doc) {
+		return RSS2FeedFormat
+	} else if isAtomFeed(doc) {
 		return AtomFeedFormat
 	}
 	return UnknownFeedFormat
+}
+
+func isRSS2Feed(doc []byte) bool {
+	rf := &struct {
+		XMLName xml.Name `xml:"rss"`
+		Version string   `xml:"version,attr"`
+	}{}
+	if err := xml.Unmarshal(doc, rf); err != nil {
+		return false
+	}
+	return rf.Version == "2.0"
 }
 
 // Heuristically determines if the document is an Atom feed by searching

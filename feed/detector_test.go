@@ -11,7 +11,7 @@ func TestFeedFormat(t *testing.T) {
 	if got := FeedFormat(atomDoc); got != AtomFeedFormat {
 		t.Errorf("Got: %d, Want: %d", got, AtomFeedFormat)
 	}
-	if got := FeedFormat(rssDoc); got != UnknownFeedFormat {
+	if got := FeedFormat(rssDoc); got != RSS2FeedFormat {
 		t.Errorf("Got: %d, Want: %d", got, UnknownFeedFormat)
 	}
 }
