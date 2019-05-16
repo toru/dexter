@@ -15,6 +15,8 @@ const (
 	AtomFeedFormat
 )
 
+// FeedFormat attempts to detects the feed format of the given byte slice.
+// Detection is performed on a best-effort basis.
 func FeedFormat(doc []byte) int {
 	if isRSS2Feed(doc) {
 		return RSS2FeedFormat
