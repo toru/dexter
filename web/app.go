@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"strconv"
 	"strings"
@@ -233,8 +234,10 @@ func ServeWebAPI(cfg ServerConfig, db store.Store) error {
 	http.Handle("/subscriptions", subscriptionsResourceHandlerFunc(db))
 
 	// TODO(toru): TLS
-	addr := fmt.Sprintf("%s:%d", cfg.Listen, cfg.Port)
-	log.Fatal(http.ListenAndServe(addr, nil))
-
+	lsnr, err := net.Listen("tcp", fmt.Sprintf("%s:%d", cfg.Listen, cfg.Port))
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Fatal(http.Serve(lsnr, nil))
 	return nil
 }
