@@ -22,7 +22,7 @@ func NewDexIDFromString(src string) DexID {
 
 // NewDexIDFromHexDigest returns a new DexID based on the given hex digest.
 func NewDexIDFromHexDigest(src string) (DexID, error) {
-	if len(src) != DexHexIDLen {
+	if !ValidateHexID(src) {
 		return DexID{}, errors.New("invalid dexter id")
 	}
 	rv := DexID{}
@@ -38,4 +38,10 @@ func NewDexIDFromHexDigest(src string) (DexID, error) {
 // DexID as a string. Sadly, DexID can't be used as a method receiver.
 func DexIDToHexDigest(id DexID) string {
 	return hex.EncodeToString(id[:])
+}
+
+// ValidateHexID returns a boolean indicating the validity of the given
+// hexadecimal string. Mostly syntax sugar at this point.
+func ValidateHexID(digest string) bool {
+	return len(digest) == DexHexIDLen
 }
