@@ -78,14 +78,15 @@ func (s *Subscription) FeedSync() (feed.Feed, error) {
 	}
 	s.checksum = checksum
 
-	if feed.FeedFormat(payload) == feed.AtomFeedFormat {
+	switch feed.FeedFormat(payload) {
+	case feed.AtomFeedFormat:
 		af, err := feed.ParseAtomFeed(payload)
 		if err != nil {
 			return nil, err
 		}
 		af.SetSubscriptionID(s.ID)
 		return af, nil
-	} else {
+	default:
 		return nil, fmt.Errorf("unknown syndication format")
 	}
 }
