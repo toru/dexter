@@ -5,6 +5,12 @@ import (
 	"time"
 )
 
+// RSS2Time is a custom type that embeds the standard time.Time.
+// Purpose of this type is to implement a custom XML node parser.
+type RSS2Time struct {
+	time.Time
+}
+
 type RSS2Channel struct {
 	// Required Fields
 	Title       string `xml:"title"`
@@ -12,18 +18,18 @@ type RSS2Channel struct {
 	Description string `xml:"description"`
 
 	// Optional Fields
-	Language       string    `xml:"language"`
-	Copyright      string    `xml:"copyright"`
-	ManagingEditor string    `xml:"managingEditor"`
-	WebMaster      string    `xml:"webMaster"`
-	PubDate        time.Time `xml:"pubDate"`
-	LastBuildDate  time.Time `xml:"lastBuildDate"`
-	Category       []string  `xml:"category"`
-	Generator      string    `xml:"generator"`
-	Docs           string    `xml:"docs"`
-	Cloud          string    `xml:"cloud"`
-	TTL            uint      `xml:"ttl"`
-	Image          string    `xml:"image"`
+	Language       string   `xml:"language"`
+	Copyright      string   `xml:"copyright"`
+	ManagingEditor string   `xml:"managingEditor"`
+	WebMaster      string   `xml:"webMaster"`
+	PubDate        RSS2Time `xml:"pubDate"`
+	LastBuildDate  RSS2Time `xml:"lastBuildDate"`
+	Category       []string `xml:"category"`
+	Generator      string   `xml:"generator"`
+	Docs           string   `xml:"docs"`
+	Cloud          string   `xml:"cloud"`
+	TTL            uint     `xml:"ttl"`
+	Image          string   `xml:"image"`
 	// TODO: TextInput
 	// TODO: SkipHours
 	// TODO: SkipDays
@@ -33,4 +39,9 @@ type RSS2Feed struct {
 	XMLName xml.Name    `xml:"rss"`
 	Version string      `xml:"version,attr"`
 	Channel RSS2Channel `xml:"channel"`
+}
+
+func (rd *RSS2Time) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	// TODO: time.RFC822, RFC822Z, time.RFC1123, time.RFC1123Z
+	return nil
 }
