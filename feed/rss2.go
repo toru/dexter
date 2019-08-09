@@ -41,7 +41,19 @@ type RSS2Feed struct {
 	Channel RSS2Channel `xml:"channel"`
 }
 
-func (rd *RSS2Time) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
-	// TODO: time.RFC822, RFC822Z, time.RFC1123, time.RFC1123Z
-	return nil
+func (rt *RSS2Time) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	var err error
+	var tmp string
+	var parsed time.Time
+
+	d.DecodeElement(&tmp, &start)
+	fmts := []string{time.RFC1123Z, time.RFC1123, time.RFC822Z, time.RFC822}
+	for _, f := range fmts {
+		parsed, err = time.Parse(f, tmp)
+		if err == nil {
+			rt.Time = parsed
+			break
+		}
+	}
+	return err
 }
