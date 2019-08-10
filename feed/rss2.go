@@ -3,12 +3,31 @@ package feed
 import (
 	"encoding/xml"
 	"time"
+
+	"github.com/toru/dexter/index"
 )
 
 // RSS2Time is a custom type that embeds the standard time.Time.
 // Purpose of this type is to implement a custom XML node parser.
 type RSS2Time struct {
 	time.Time
+}
+
+func (rt *RSS2Time) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	var err error
+	var tmp string
+	var parsed time.Time
+
+	d.DecodeElement(&tmp, &start)
+	fmts := []string{time.RFC1123Z, time.RFC1123, time.RFC822Z, time.RFC822}
+	for _, f := range fmts {
+		parsed, err = time.Parse(f, tmp)
+		if err == nil {
+			rt.Time = parsed
+			break
+		}
+	}
+	return err
 }
 
 type RSS2Channel struct {
@@ -39,21 +58,12 @@ type RSS2Feed struct {
 	XMLName xml.Name    `xml:"rss"`
 	Version string      `xml:"version,attr"`
 	Channel RSS2Channel `xml:"channel"`
+
+	// Dexter specific attributes
+	subscriptionID index.DexID
 }
 
-func (rt *RSS2Time) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
-	var err error
-	var tmp string
-	var parsed time.Time
-
-	d.DecodeElement(&tmp, &start)
-	fmts := []string{time.RFC1123Z, time.RFC1123, time.RFC822Z, time.RFC822}
-	for _, f := range fmts {
-		parsed, err = time.Parse(f, tmp)
-		if err == nil {
-			rt.Time = parsed
-			break
-		}
-	}
-	return err
+// SetSubscriptionID sets the given ID to the feed.
+func (rf *RSS2Feed) SetSubscriptionID(id index.DexID) {
+	rf.subscriptionID = id
 }
