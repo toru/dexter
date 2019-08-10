@@ -13,6 +13,8 @@ type RSS2Time struct {
 	time.Time
 }
 
+// UnmarshalXML implements the xml.Unmarshaler interface.
+// A generous implementation that allows multiple format strings.
 func (rt *RSS2Time) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var err error
 	var tmp string
