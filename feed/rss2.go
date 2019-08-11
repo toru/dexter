@@ -65,6 +65,15 @@ type RSS2Feed struct {
 	subscriptionID index.DexID
 }
 
+// ID implements the Feed interface. RSS 2.0 doesn't define a feed
+// identifier so return the subscription_id as a hex string instead.
+func (f *RSS2Feed) ID() string {
+	if len(f.subscriptionID) > 0 {
+		return index.DexIDToHexDigest(f.subscriptionID)
+	}
+	return ""
+}
+
 // SetSubscriptionID sets the given ID to the feed.
 func (rf *RSS2Feed) SetSubscriptionID(id index.DexID) {
 	rf.subscriptionID = id
