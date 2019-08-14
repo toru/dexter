@@ -74,6 +74,11 @@ func (rf *RSS2Feed) ID() string {
 	return ""
 }
 
+// Title implements the Feed interface.
+func (rf *RSS2Feed) Title() string {
+	return rf.Channel.Title
+}
+
 // SubscriptionID implements the Feed interface.
 func (rf *RSS2Feed) SubscriptionID() index.DexID {
 	return rf.subscriptionID
