@@ -84,6 +84,12 @@ func (rf *RSS2Feed) SubscriptionID() index.DexID {
 	return rf.subscriptionID
 }
 
+// Entries implements the Feed interface.
+func (rf *RSS2Feed) Entries() []Entry {
+	// TODO: Define relevant structs and write a parser
+	return []Entry{}
+}
+
 // SetSubscriptionID sets the given ID to the feed.
 func (rf *RSS2Feed) SetSubscriptionID(id index.DexID) {
 	rf.subscriptionID = id
