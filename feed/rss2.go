@@ -65,6 +65,16 @@ type RSS2Feed struct {
 	subscriptionID index.DexID
 }
 
+// ParseRSS2Feed parses the given byte slice as an RSS2Feed.
+// TODO: Can't this just return a Feed interface?
+func ParseRSS2Feed(doc []byte) (*RSS2Feed, error) {
+	feed := &RSS2Feed{}
+	if err := xml.Unmarshal(doc, feed); err != nil {
+		return nil, err
+	}
+	return feed, nil
+}
+
 // ID implements the Feed interface. RSS 2.0 doesn't define a feed
 // identifier so return the subscription_id as a hex string instead.
 func (rf *RSS2Feed) ID() string {
