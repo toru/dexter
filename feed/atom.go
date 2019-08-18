@@ -99,7 +99,7 @@ type AtomEntry struct {
 }
 
 // ParseAtomFeed parses the given byte slice as an AtomFeed.
-func ParseAtomFeed(doc []byte) (*AtomFeed, error) {
+func ParseAtomFeed(doc []byte) (Feed, error) {
 	feed := &AtomFeed{}
 	if err := xml.Unmarshal(doc, feed); err != nil {
 		return nil, err

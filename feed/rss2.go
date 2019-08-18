@@ -66,8 +66,7 @@ type RSS2Feed struct {
 }
 
 // ParseRSS2Feed parses the given byte slice as an RSS2Feed.
-// TODO: Can't this just return a Feed interface?
-func ParseRSS2Feed(doc []byte) (*RSS2Feed, error) {
+func ParseRSS2Feed(doc []byte) (Feed, error) {
 	feed := &RSS2Feed{}
 	if err := xml.Unmarshal(doc, feed); err != nil {
 		return nil, err
