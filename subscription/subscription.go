@@ -78,6 +78,7 @@ func (s *Subscription) FeedSync() (feed.Feed, error) {
 	}
 	s.checksum = checksum
 
+	// TODO(toru): Encapsulate all this into a common Parse() function.
 	switch feed.FeedFormat(payload) {
 	case feed.AtomFeedFormat:
 		af, err := feed.ParseAtomFeed(payload)
@@ -86,6 +87,13 @@ func (s *Subscription) FeedSync() (feed.Feed, error) {
 		}
 		af.SetSubscriptionID(s.ID)
 		return af, nil
+	case feed.RSS2FeedFormat:
+		rf, err := feed.ParseRSS2Feed(payload)
+		if err != nil {
+			return nil, err
+		}
+		rf.SetSubscriptionID(s.ID)
+		return rf, nil
 	default:
 		return nil, fmt.Errorf("unknown syndication format")
 	}
