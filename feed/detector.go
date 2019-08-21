@@ -8,13 +8,6 @@ import (
 const atomHint = "http://www.w3.org/2005/Atom"
 const searchLimit = 1024
 
-const (
-	UnknownFeedFormat = iota
-	RSS1FeedFormat
-	RSS2FeedFormat
-	AtomFeedFormat
-)
-
 // FeedFormat attempts to detects the feed format of the given byte slice.
 // Detection is performed on a best-effort basis.
 func FeedFormat(doc []byte) int {

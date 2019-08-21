@@ -4,6 +4,13 @@ import (
 	"github.com/toru/dexter/index"
 )
 
+const (
+	UnknownFeedFormat = iota
+	RSS1FeedFormat
+	RSS2FeedFormat
+	AtomFeedFormat
+)
+
 // Feed is a common interface for all data feed formats.
 type Feed interface {
 	ID() string
