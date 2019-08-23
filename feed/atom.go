@@ -122,6 +122,11 @@ func (af *AtomFeed) Title() string {
 	return af.Title_
 }
 
+// Type implements the Feed interface.
+func (af *AtomFeed) Type() uint {
+	return AtomFeedFormat
+}
+
 // SubscriptionID implements the Feed interface.
 func (af *AtomFeed) SubscriptionID() index.DexID {
 	return af.subscriptionID
