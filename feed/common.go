@@ -16,7 +16,7 @@ type Feed interface {
 	ID() string
 	SubscriptionID() index.DexID
 	Title() string
-	Type() uint
+	Format() uint
 	Entries() []Entry
 	SetSubscriptionID(id index.DexID)
 }

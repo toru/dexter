@@ -122,8 +122,8 @@ func (af *AtomFeed) Title() string {
 	return af.Title_
 }
 
-// Type implements the Feed interface.
-func (af *AtomFeed) Type() uint {
+// Format implements the Feed interface.
+func (af *AtomFeed) Format() uint {
 	return AtomFeedFormat
 }
 

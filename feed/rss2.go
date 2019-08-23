@@ -88,8 +88,8 @@ func (rf *RSS2Feed) Title() string {
 	return rf.Channel.Title
 }
 
-// Type implements the Feed interface.
-func (rf *RSS2Feed) Type() uint {
+// Format implements the Feed interface.
+func (rf *RSS2Feed) Format() uint {
 	return RSS2FeedFormat
 }
 
