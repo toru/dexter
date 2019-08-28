@@ -32,6 +32,16 @@ func (rt *RSS2Time) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	return err
 }
 
+type RSS2Item struct {
+	Title       string `xml:"title"`
+	Link        string `xml:"link"`
+	Description string `xml:"description"`
+	GUID        string `xml:"guid"`
+
+	// Dexter specific
+	feedID index.DexID
+}
+
 type RSS2Channel struct {
 	// Required Fields
 	Title       string `xml:"title"`
@@ -107,4 +117,19 @@ func (rf *RSS2Feed) Entries() []Entry {
 // SetSubscriptionID sets the given ID to the feed.
 func (rf *RSS2Feed) SetSubscriptionID(id index.DexID) {
 	rf.subscriptionID = id
+}
+
+// FeedID implements the Entry interface.
+func (ri *RSS2Item) FeedID() index.DexID {
+	return ri.feedID
+}
+
+// ID implements the Entry interface.
+func (ri *RSS2Item) ID() string {
+	return ri.GUID
+}
+
+// Summary implements the Entry interface.
+func (ri *RSS2Item) Summary() string {
+	return ri.Description
 }
