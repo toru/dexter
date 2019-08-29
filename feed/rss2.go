@@ -64,6 +64,9 @@ type RSS2Channel struct {
 	// TODO: TextInput
 	// TODO: SkipHours
 	// TODO: SkipDays
+
+	// Dexter specific
+	Items []RSS2Item `xml:"item"`
 }
 
 type RSS2Feed struct {
