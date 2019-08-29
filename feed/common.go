@@ -27,3 +27,16 @@ type Entry interface {
 	ID() string
 	Summary() string
 }
+
+func FormatStr(fmtID uint) string {
+	switch fmtID {
+	case RSS1FeedFormat:
+		return "rss1"
+	case RSS2FeedFormat:
+		return "rss2"
+	case AtomFeedFormat:
+		return "atom"
+	default:
+		return "unknown"
+	}
+}
