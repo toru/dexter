@@ -28,6 +28,7 @@ type Entry interface {
 	Summary() string
 }
 
+// FormatStr returns the string representation of the given feed-id.
 func FormatStr(fmtID uint) string {
 	switch fmtID {
 	case RSS1FeedFormat:
