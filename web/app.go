@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/toru/dexter/feed"
 	"github.com/toru/dexter/index"
 	"github.com/toru/dexter/store"
 	"github.com/toru/dexter/subscription"
@@ -31,6 +32,7 @@ type feedPresenter struct {
 	ID             string `json:"id"`              // Feed ID
 	SubscriptionID string `json:"subscription_id"` // Subscription ID
 	Title          string `json:"title"`           // Feed Title
+	Format         string `json:"format"`          // Feed Format
 }
 
 type subscriptionPresenter struct {
@@ -146,7 +148,12 @@ func getFeedHandler(db store.Store, id string, w http.ResponseWriter, r *http.Re
 		return
 	}
 	subID := index.DexIDToHexDigest(f.SubscriptionID())
-	rv := feedPresenter{f.ID(), subID, f.Title()}
+	rv := feedPresenter{
+		f.ID(),
+		subID,
+		f.Title(),
+		feed.FormatStr(f.Format()),
+	}
 	buf, err := json.Marshal(rv)
 	if err != nil {
 		log.Print(err)
@@ -166,6 +173,7 @@ func getFeedsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
 			f.ID(),
 			index.DexIDToHexDigest(rawSubID),
 			f.Title(),
+			feed.FormatStr(f.Format()),
 		})
 	}
 
