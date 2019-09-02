@@ -11,6 +11,13 @@ const (
 	DexHexIDLen = 56
 )
 
+// ID is a common interface for all unique identifiers.
+type ID interface {
+	Algo() uint8
+	Value() []byte
+	String() string
+}
+
 // DexID is a 224-bit (or 28-byte) long primary key that every
 // object inside Dexter has been alloted with.
 type DexID = [sha256.Size224]byte
