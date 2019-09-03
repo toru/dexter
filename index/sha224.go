@@ -1,4 +1,3 @@
-// Package index holds various indexing related data structures and algorithms.
 package index
 
 import (
@@ -6,23 +5,6 @@ import (
 	"encoding/hex"
 	"errors"
 )
-
-const (
-	DexIDTypeSHA1 = iota
-	DexIDTypeSHA224
-	DexIDTypeUUID
-)
-
-const (
-	DexHexIDLen = 56
-)
-
-// ID is a common interface for all unique identifiers.
-type ID interface {
-	Algo() uint8
-	Value() []byte
-	String() string
-}
 
 // DexID is a 224-bit (or 28-byte) long primary key that every
 // object inside Dexter has been alloted with.
