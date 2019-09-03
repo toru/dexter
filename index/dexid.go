@@ -8,6 +8,12 @@ import (
 )
 
 const (
+	DexIDTypeSHA1 = iota
+	DexIDTypeSHA224
+	DexIDTypeUUID
+)
+
+const (
 	DexHexIDLen = 56
 )
 
