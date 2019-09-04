@@ -40,3 +40,22 @@ func DexIDToHexDigest(id DexID) string {
 func ValidateHexID(digest string) bool {
 	return len(digest) == DexHexIDLen
 }
+
+type SHA224DexID struct {
+	value [sha256.Size224]byte
+}
+
+// Algo implements the ID interface.
+func (id *SHA224DexID) Algo() uint8 {
+	return DexIDTypeSHA224
+}
+
+// Value implements the ID interface.
+func (id *SHA224DexID) Value() []byte {
+	return id.value[:]
+}
+
+// String implements the ID interface.
+func (id *SHA224DexID) String() []byte {
+	return hex.EncodeToString(id.value[:])
+}
