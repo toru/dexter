@@ -56,6 +56,6 @@ func (id *SHA224DexID) Value() []byte {
 }
 
 // String implements the ID interface.
-func (id *SHA224DexID) String() []byte {
+func (id *SHA224DexID) String() string {
 	return hex.EncodeToString(id.value[:])
 }
