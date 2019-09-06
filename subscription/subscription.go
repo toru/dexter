@@ -20,7 +20,7 @@ type Subscription struct {
 	FeedURL url.URL     // URL of the data endpooint
 
 	unreachable  bool // Consider using a enum
-	checksum     index.DexID
+	checksum     [sha256.Size224]byte
 	createdAt    time.Time
 	lastSyncedAt time.Time
 }
