@@ -31,8 +31,8 @@ func NewDexIDFromHexDigest(src string) (DexID, error) {
 
 // DexIDToHexDigest returns the hexadecimal representation of the given
 // DexID as a string. Sadly, DexID can't be used as a method receiver.
-func DexIDToHexDigest(id DexID) string {
-	return hex.EncodeToString(id[:])
+func DexIDToHexDigest(id []byte) string {
+	return hex.EncodeToString(id)
 }
 
 // ValidateHexID returns a boolean indicating the validity of the given

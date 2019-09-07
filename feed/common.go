@@ -14,7 +14,7 @@ const (
 // Feed is a common interface for all data feed formats.
 type Feed interface {
 	ID() string
-	SubscriptionID() index.DexID
+	SubscriptionID() []byte
 	Title() string
 	Format() uint
 	Entries() []Entry

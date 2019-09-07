@@ -1,6 +1,7 @@
 package store
 
 import (
+	"crypto/sha256"
 	"sync"
 
 	"github.com/toru/dexter/feed"
@@ -90,7 +91,10 @@ func (s *MemoryStore) WriteFeed(f feed.Feed) error {
 	s.feedsMux.Lock()
 	defer s.feedsMux.Unlock()
 
-	s.feeds[f.SubscriptionID()] = f
+	// Temporary workaround until the ID mechanism is overhauled.
+	var idx [sha256.Size224]byte
+	copy(idx[:], f.SubscriptionID())
+	s.feeds[idx] = f
 	return nil
 }
 

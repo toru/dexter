@@ -213,7 +213,7 @@ func getSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Requ
 	subs := make([]subscriptionPresenter, 0, db.NumSubscriptions())
 	for _, sub := range db.Subscriptions() {
 		subs = append(subs, subscriptionPresenter{
-			index.DexIDToHexDigest(sub.ID),
+			index.DexIDToHexDigest(sub.ID[:]),
 			sub.FeedURL.String(),
 		})
 	}

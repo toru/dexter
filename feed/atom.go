@@ -128,8 +128,8 @@ func (af *AtomFeed) Format() uint {
 }
 
 // SubscriptionID implements the Feed interface.
-func (af *AtomFeed) SubscriptionID() index.DexID {
-	return af.subscriptionID
+func (af *AtomFeed) SubscriptionID() []byte {
+	return af.subscriptionID[:]
 }
 
 // Entries implements the Feed interface.

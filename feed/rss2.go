@@ -91,7 +91,7 @@ func ParseRSS2Feed(doc []byte) (Feed, error) {
 // identifier so return the subscription_id as a hex string instead.
 func (rf *RSS2Feed) ID() string {
 	if len(rf.subscriptionID) > 0 {
-		return index.DexIDToHexDigest(rf.subscriptionID)
+		return index.DexIDToHexDigest(rf.subscriptionID[:])
 	}
 	return ""
 }
@@ -107,8 +107,8 @@ func (rf *RSS2Feed) Format() uint {
 }
 
 // SubscriptionID implements the Feed interface.
-func (rf *RSS2Feed) SubscriptionID() index.DexID {
-	return rf.subscriptionID
+func (rf *RSS2Feed) SubscriptionID() []byte {
+	return rf.subscriptionID[:]
 }
 
 // Entries implements the Feed interface.
