@@ -95,7 +95,7 @@ type AtomEntry struct {
 	Updated      time.Time         `xml:"updated"`
 
 	// Dexter specific attributes
-	feedID index.DexID
+	feedID index.ID
 }
 
 // ParseAtomFeed parses the given byte slice as an AtomFeed.
@@ -142,12 +142,12 @@ func (af *AtomFeed) Entries() []Entry {
 }
 
 // SetFeedID sets the given ID to the entry.
-func (ae *AtomEntry) SetFeedID(id index.DexID) {
+func (ae *AtomEntry) SetFeedID(id index.ID) {
 	ae.feedID = id
 }
 
 // FeedID implements the Entry interface.
-func (ae *AtomEntry) FeedID() index.DexID {
+func (ae *AtomEntry) FeedID() index.ID {
 	return ae.feedID
 }
 

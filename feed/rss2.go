@@ -39,7 +39,7 @@ type RSS2Item struct {
 	GUID        string `xml:"guid"`
 
 	// Dexter specific
-	feedID index.DexID
+	feedID index.ID
 }
 
 type RSS2Channel struct {
@@ -126,7 +126,7 @@ func (rf *RSS2Feed) SetSubscriptionID(id index.DexID) {
 }
 
 // FeedID implements the Entry interface.
-func (ri *RSS2Item) FeedID() index.DexID {
+func (ri *RSS2Item) FeedID() index.ID {
 	return ri.feedID
 }
 

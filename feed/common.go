@@ -23,7 +23,7 @@ type Feed interface {
 
 // Entry is a common interface for all data entry formats.
 type Entry interface {
-	FeedID() index.DexID
+	FeedID() index.ID
 	ID() string
 	Summary() string
 }
