@@ -26,6 +26,7 @@ type Entry interface {
 	FeedID() index.ID
 	ID() string
 	Summary() string
+	SetFeedID(id index.ID)
 }
 
 // FormatStr returns the string representation of the given feed-id.

@@ -125,6 +125,11 @@ func (rf *RSS2Feed) SetSubscriptionID(id index.DexID) {
 	rf.subscriptionID = id
 }
 
+// SetFeedID implements the Entry interface.
+func (ri *RSS2Item) SetFeedID(id index.ID) {
+	ri.feedID = id
+}
+
 // FeedID implements the Entry interface.
 func (ri *RSS2Item) FeedID() index.ID {
 	return ri.feedID

@@ -141,7 +141,7 @@ func (af *AtomFeed) Entries() []Entry {
 	return rv
 }
 
-// SetFeedID sets the given ID to the entry.
+// SetFeedID implements the Entry interface.
 func (ae *AtomEntry) SetFeedID(id index.ID) {
 	ae.feedID = id
 }
