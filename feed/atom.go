@@ -108,8 +108,10 @@ func ParseAtomFeed(doc []byte) (Feed, error) {
 }
 
 // SetSubscriptionID sets the given ID to the feed.
-func (af *AtomFeed) SetSubscriptionID(id index.DexID) {
-	af.subscriptionID = id
+func (af *AtomFeed) SetSubscriptionID(id []byte) {
+	var tmp [index.SHA224DexIDLen]byte
+	copy(tmp[:], id)
+	af.subscriptionID = tmp
 }
 
 // ID implements the Feed interface.

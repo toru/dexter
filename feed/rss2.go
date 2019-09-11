@@ -121,8 +121,10 @@ func (rf *RSS2Feed) Entries() []Entry {
 }
 
 // SetSubscriptionID sets the given ID to the feed.
-func (rf *RSS2Feed) SetSubscriptionID(id index.DexID) {
-	rf.subscriptionID = id
+func (rf *RSS2Feed) SetSubscriptionID(id []byte) {
+	var tmp [index.SHA224DexIDLen]byte
+	copy(tmp[:], id)
+	rf.subscriptionID = tmp
 }
 
 // SetFeedID implements the Entry interface.

@@ -18,7 +18,7 @@ type Feed interface {
 	Title() string
 	Format() uint
 	Entries() []Entry
-	SetSubscriptionID(id index.DexID)
+	SetSubscriptionID(id []byte)
 }
 
 // Entry is a common interface for all data entry formats.
