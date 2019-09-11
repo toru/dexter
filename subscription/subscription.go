@@ -16,8 +16,8 @@ import (
 
 // Subscription represents a subscription to a data feed.
 type Subscription struct {
-	ID      index.DexID // Unique ID
-	FeedURL url.URL     // URL of the data endpooint
+	ID      index.ID // Unique ID
+	FeedURL url.URL  // URL of the data endpooint
 
 	unreachable  bool // Consider using a enum
 	checksum     [sha256.Size224]byte
@@ -33,7 +33,7 @@ func New(feedURL string) (*Subscription, error) {
 	}
 
 	s := &Subscription{
-		ID:      index.NewDexIDFromString(feedURL),
+		ID:      index.NewSHA224DexIDFromString(feedURL),
 		FeedURL: *u,
 	}
 	return s, nil
@@ -85,14 +85,14 @@ func (s *Subscription) FeedSync() (feed.Feed, error) {
 		if err != nil {
 			return nil, err
 		}
-		af.SetSubscriptionID(s.ID[:])
+		af.SetSubscriptionID(s.ID.Value())
 		return af, nil
 	case feed.RSS2FeedFormat:
 		rf, err := feed.ParseRSS2Feed(payload)
 		if err != nil {
 			return nil, err
 		}
-		rf.SetSubscriptionID(s.ID[:])
+		rf.SetSubscriptionID(s.ID.Value())
 		return rf, nil
 	default:
 		return nil, fmt.Errorf("unknown syndication format")
