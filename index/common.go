@@ -16,4 +16,5 @@ type ID interface {
 	Algo() uint8
 	Value() []byte
 	String() string
+	SetValue(val []byte)
 }

@@ -67,3 +67,8 @@ func (id SHA224DexID) Value() []byte {
 func (id SHA224DexID) String() string {
 	return hex.EncodeToString(id.value[:])
 }
+
+// SetValue implements the ID interface.
+func (id SHA224DexID) SetValue(val []byte) {
+	copy(id.value[:], val)
+}
