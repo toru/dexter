@@ -50,7 +50,7 @@ type SHA224DexID struct {
 }
 
 func NewSHA224DexIDFromString(src string) ID {
-	return SHA224DexID{sha256.Sum224([]byte(src))}
+	return &SHA224DexID{sha256.Sum224([]byte(src))}
 }
 
 // Algo implements the ID interface.
@@ -69,6 +69,6 @@ func (id SHA224DexID) String() string {
 }
 
 // SetValue implements the ID interface.
-func (id SHA224DexID) SetValue(val []byte) {
+func (id *SHA224DexID) SetValue(val []byte) {
 	copy(id.value[:], val)
 }
