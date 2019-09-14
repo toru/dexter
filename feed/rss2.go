@@ -75,12 +75,14 @@ type RSS2Feed struct {
 	Channel RSS2Channel `xml:"channel"`
 
 	// Dexter specific attributes
-	subscriptionID index.DexID
+	subscriptionID index.ID
 }
 
 // ParseRSS2Feed parses the given byte slice as an RSS2Feed.
 func ParseRSS2Feed(doc []byte) (Feed, error) {
 	feed := &RSS2Feed{}
+	feed.subscriptionID = &index.SHA224DexID{}
+
 	if err := xml.Unmarshal(doc, feed); err != nil {
 		return nil, err
 	}
@@ -90,8 +92,8 @@ func ParseRSS2Feed(doc []byte) (Feed, error) {
 // ID implements the Feed interface. RSS 2.0 doesn't define a feed
 // identifier so return the subscription_id as a hex string instead.
 func (rf *RSS2Feed) ID() string {
-	if len(rf.subscriptionID) > 0 {
-		return index.DexIDToHexDigest(rf.subscriptionID[:])
+	if len(rf.subscriptionID.Value()) > 0 {
+		return rf.subscriptionID.String()
 	}
 	return ""
 }
@@ -108,7 +110,7 @@ func (rf *RSS2Feed) Format() uint {
 
 // SubscriptionID implements the Feed interface.
 func (rf *RSS2Feed) SubscriptionID() []byte {
-	return rf.subscriptionID[:]
+	return rf.subscriptionID.Value()
 }
 
 // Entries implements the Feed interface.
@@ -122,9 +124,7 @@ func (rf *RSS2Feed) Entries() []Entry {
 
 // SetSubscriptionID sets the given ID to the feed.
 func (rf *RSS2Feed) SetSubscriptionID(id []byte) {
-	var tmp [index.SHA224DexIDLen]byte
-	copy(tmp[:], id)
-	rf.subscriptionID = tmp
+	rf.subscriptionID.SetValue(id)
 }
 
 // SetFeedID implements the Entry interface.
