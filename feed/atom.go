@@ -75,7 +75,7 @@ type AtomFeed struct {
 	Entries_     []AtomEntry       `xml:"entry"`
 
 	// Dexter specific attributes
-	subscriptionID index.DexID
+	subscriptionID index.ID
 }
 
 // AtomEntry represents the "atom:entry" container element defined in
@@ -101,6 +101,7 @@ type AtomEntry struct {
 // ParseAtomFeed parses the given byte slice as an AtomFeed.
 func ParseAtomFeed(doc []byte) (Feed, error) {
 	feed := &AtomFeed{}
+	feed.subscriptionID = &index.SHA224DexID{}
 	if err := xml.Unmarshal(doc, feed); err != nil {
 		return nil, err
 	}
@@ -109,9 +110,7 @@ func ParseAtomFeed(doc []byte) (Feed, error) {
 
 // SetSubscriptionID sets the given ID to the feed.
 func (af *AtomFeed) SetSubscriptionID(id []byte) {
-	var tmp [index.SHA224DexIDLen]byte
-	copy(tmp[:], id)
-	af.subscriptionID = tmp
+	af.subscriptionID.SetValue(id)
 }
 
 // ID implements the Feed interface.
@@ -131,7 +130,7 @@ func (af *AtomFeed) Format() uint {
 
 // SubscriptionID implements the Feed interface.
 func (af *AtomFeed) SubscriptionID() []byte {
-	return af.subscriptionID[:]
+	return af.subscriptionID.Value()
 }
 
 // Entries implements the Feed interface.
