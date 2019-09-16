@@ -98,6 +98,13 @@ type AtomEntry struct {
 	feedID index.ID
 }
 
+// NewAtomFeed returns a new AtomFeed.
+func NewAtomFeed() Feed {
+	feed := &AtomFeed{}
+	feed.subscriptionID = &index.SHA224DexID{}
+	return feed
+}
+
 // ParseAtomFeed parses the given byte slice as an AtomFeed.
 func ParseAtomFeed(doc []byte) (Feed, error) {
 	feed := &AtomFeed{}

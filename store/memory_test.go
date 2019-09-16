@@ -26,8 +26,8 @@ func TestWriteSubscription(t *testing.T) {
 func TestWriteFeed(t *testing.T) {
 	s, _ := NewMemoryStore()
 	k := index.NewDexIDFromString("ok")
-	f := &feed.AtomFeed{}
-	f.SetSubscriptionID(k)
+	f := feed.NewAtomFeed()
+	f.SetSubscriptionID(k[:])
 
 	if err := s.WriteFeed(f); err != nil {
 		t.Error(err)
