@@ -7,7 +7,8 @@ import (
 )
 
 const (
-	SHA224DexIDLen = sha256.Size224
+	SHA224DexIDLen    = sha256.Size224
+	SHA224DexIDHexLen = sha256.Size224 * 2
 )
 
 // DexID is a 224-bit (or 28-byte) long primary key that every
@@ -71,4 +72,17 @@ func (id SHA224DexID) String() string {
 // SetValue implements the ID interface.
 func (id *SHA224DexID) SetValue(val []byte) {
 	copy(id.value[:], val)
+}
+
+// SetValueFromHex implements the ID interface.
+func (id *SHA224DexID) SetValueFromHexString(val string) error {
+	if len(val) != SHA224DexIDHexLen {
+		return errors.New("invalid hex string")
+	}
+	raw, err := hex.DecodeString(val)
+	if err != nil {
+		return err
+	}
+	copy(id.value[:], raw)
+	return nil
 }

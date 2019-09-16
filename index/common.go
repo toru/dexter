@@ -21,6 +21,7 @@ type ID interface {
 	Value() []byte
 	String() string
 	SetValue(val []byte)
+	SetValueFromHexString(val string) error
 }
 
 // IsSupported validates if the indexer supports the given hash algorithm.
