@@ -109,8 +109,8 @@ func (rf *RSS2Feed) Format() uint {
 }
 
 // SubscriptionID implements the Feed interface.
-func (rf *RSS2Feed) SubscriptionID() []byte {
-	return rf.subscriptionID.Value()
+func (rf *RSS2Feed) SubscriptionID() index.ID {
+	return rf.subscriptionID
 }
 
 // Entries implements the Feed interface.

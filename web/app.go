@@ -147,7 +147,7 @@ func getFeedHandler(db store.Store, id string, w http.ResponseWriter, r *http.Re
 		render404(w)
 		return
 	}
-	subID := index.DexIDToHexDigest(f.SubscriptionID())
+	subID := f.SubscriptionID().String()
 	rv := feedPresenter{
 		f.ID(),
 		subID,
@@ -168,10 +168,9 @@ func getFeedHandler(db store.Store, id string, w http.ResponseWriter, r *http.Re
 func getFeedsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
 	feeds := make([]feedPresenter, 0, db.NumSubscriptions())
 	for _, f := range db.Feeds() {
-		rawSubID := f.SubscriptionID()
 		feeds = append(feeds, feedPresenter{
 			f.ID(),
-			index.DexIDToHexDigest(rawSubID),
+			f.SubscriptionID().String(),
 			f.Title(),
 			feed.FormatStr(f.Format()),
 		})

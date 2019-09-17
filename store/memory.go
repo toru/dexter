@@ -93,7 +93,7 @@ func (s *MemoryStore) WriteFeed(f feed.Feed) error {
 
 	// Temporary workaround until the ID mechanism is overhauled.
 	var idx [sha256.Size224]byte
-	copy(idx[:], f.SubscriptionID())
+	copy(idx[:], f.SubscriptionID().Value())
 	s.feeds[idx] = f
 	return nil
 }
