@@ -11,10 +11,6 @@ const (
 	DexIDTypeUUID
 )
 
-const (
-	DexHexIDLen = 56
-)
-
 // ID is a common interface for all unique identifiers.
 type ID interface {
 	Algo() uint8

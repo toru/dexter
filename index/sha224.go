@@ -37,7 +37,7 @@ func NewDexIDFromHexDigest(src string) (DexID, error) {
 // ValidateHexID returns a boolean indicating the validity of the given
 // hexadecimal string. Mostly syntax sugar at this point.
 func ValidateHexID(digest string) bool {
-	return len(digest) == DexHexIDLen
+	return len(digest) == SHA224DexIDHexLen
 }
 
 type SHA224DexID struct {
