@@ -12,7 +12,7 @@ import (
 // MemoryStore is a simple memory-backed storage engine.
 type MemoryStore struct {
 	subsMux       sync.RWMutex
-	subscriptions map[index.ID]subscription.Subscription
+	subscriptions map[string]subscription.Subscription
 
 	feedsMux sync.RWMutex
 	feeds    map[index.DexID]feed.Feed
@@ -22,7 +22,7 @@ type MemoryStore struct {
 // NewMemoryStore returns a new MemoryStore.
 func NewMemoryStore() (*MemoryStore, error) {
 	ret := &MemoryStore{}
-	ret.subscriptions = make(map[index.ID]subscription.Subscription)
+	ret.subscriptions = make(map[string]subscription.Subscription)
 	ret.feeds = make(map[index.DexID]feed.Feed)
 	ret.entries = make(map[index.DexID]feed.Entry)
 	return ret, nil
@@ -50,7 +50,7 @@ func (s *MemoryStore) WriteSubscription(sub *subscription.Subscription) error {
 	s.subsMux.Lock()
 	defer s.subsMux.Unlock()
 
-	s.subscriptions[sub.ID] = *sub
+	s.subscriptions[sub.ID.String()] = *sub
 	return nil
 }
 
