@@ -48,6 +48,11 @@ func NewSHA224DexIDFromString(src string) ID {
 	return &SHA224DexID{sha256.Sum224([]byte(src))}
 }
 
+// Temporary constructor for ID migration work
+func NewSHA224DexIDFromLegacyDexID(id DexID) ID {
+	return &SHA224DexID{id}
+}
+
 // Algo implements the ID interface.
 func (id SHA224DexID) Algo() uint8 {
 	return DexIDTypeSHA224
