@@ -1,7 +1,6 @@
 package store
 
 import (
-	"crypto/sha256"
 	"sync"
 
 	"github.com/toru/dexter/feed"
@@ -15,7 +14,7 @@ type MemoryStore struct {
 	subscriptions map[string]subscription.Subscription
 
 	feedsMux sync.RWMutex
-	feeds    map[index.DexID]feed.Feed
+	feeds    map[string]feed.Feed
 	entries  map[index.DexID]feed.Entry
 }
 
@@ -23,7 +22,7 @@ type MemoryStore struct {
 func NewMemoryStore() (*MemoryStore, error) {
 	ret := &MemoryStore{}
 	ret.subscriptions = make(map[string]subscription.Subscription)
-	ret.feeds = make(map[index.DexID]feed.Feed)
+	ret.feeds = make(map[string]feed.Feed)
 	ret.entries = make(map[index.DexID]feed.Entry)
 	return ret, nil
 }
@@ -79,7 +78,8 @@ func (s *MemoryStore) Feed(id index.DexID) (feed.Feed, bool) {
 	s.feedsMux.RLock()
 	defer s.feedsMux.RUnlock()
 
-	f, ok := s.feeds[id]
+	xid := index.NewSHA224DexIDFromLegacyDexID(id)
+	f, ok := s.feeds[xid.String()]
 	if !ok {
 		return nil, false
 	}
@@ -91,10 +91,7 @@ func (s *MemoryStore) WriteFeed(f feed.Feed) error {
 	s.feedsMux.Lock()
 	defer s.feedsMux.Unlock()
 
-	// Temporary workaround until the ID mechanism is overhauled.
-	var idx [sha256.Size224]byte
-	copy(idx[:], f.SubscriptionID().Value())
-	s.feeds[idx] = f
+	s.feeds[f.SubscriptionID().String()] = f
 	return nil
 }
 
@@ -105,7 +102,8 @@ func (s *MemoryStore) Entries(id index.DexID) []feed.Entry {
 	defer s.feedsMux.RUnlock()
 
 	var rv []feed.Entry
-	f, ok := s.feeds[id]
+	xid := index.NewSHA224DexIDFromLegacyDexID(id)
+	f, ok := s.feeds[xid.String()]
 	if ok {
 		rv = f.Entries()
 	}
