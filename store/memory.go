@@ -15,7 +15,7 @@ type MemoryStore struct {
 
 	feedsMux sync.RWMutex
 	feeds    map[string]feed.Feed
-	entries  map[index.DexID]feed.Entry
+	entries  map[string]feed.Entry
 }
 
 // NewMemoryStore returns a new MemoryStore.
@@ -23,7 +23,7 @@ func NewMemoryStore() (*MemoryStore, error) {
 	ret := &MemoryStore{}
 	ret.subscriptions = make(map[string]subscription.Subscription)
 	ret.feeds = make(map[string]feed.Feed)
-	ret.entries = make(map[index.DexID]feed.Entry)
+	ret.entries = make(map[string]feed.Entry)
 	return ret, nil
 }
 
