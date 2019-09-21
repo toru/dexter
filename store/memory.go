@@ -74,12 +74,11 @@ func (s *MemoryStore) Feeds() []feed.Feed {
 }
 
 // Feed finds a feed by its unique ID.
-func (s *MemoryStore) Feed(id index.DexID) (feed.Feed, bool) {
+func (s *MemoryStore) Feed(id index.ID) (feed.Feed, bool) {
 	s.feedsMux.RLock()
 	defer s.feedsMux.RUnlock()
 
-	xid := index.NewSHA224DexIDFromLegacyDexID(id)
-	f, ok := s.feeds[xid.String()]
+	f, ok := s.feeds[id.String()]
 	if !ok {
 		return nil, false
 	}

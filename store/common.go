@@ -15,7 +15,7 @@ type Store interface {
 	WriteSubscription(sub *subscription.Subscription) error
 	NumSubscriptions() int
 	Feeds() []feed.Feed
-	Feed(index.DexID) (feed.Feed, bool)
+	Feed(index.ID) (feed.Feed, bool)
 	WriteFeed(f feed.Feed) error
 	Entries(index.DexID) []feed.Entry
 }

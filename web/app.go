@@ -105,9 +105,9 @@ func subscriptionsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 
 // GET /feeds/:id/entries
 // Renders a list of entries associated to the given feed ID.
-func getFeedEntriesHandler(db store.Store, feedID string, w http.ResponseWriter, r *http.Request) {
-	xid, err := index.NewDexIDFromHexDigest(feedID)
-	if err != nil {
+func getFeedEntriesHandler(db store.Store, id string, w http.ResponseWriter, r *http.Request) {
+	xid := &index.SHA224DexID{}
+	if err := xid.SetValueFromHexString(id); err != nil {
 		render400(w, "invalid feed id")
 		return
 	}
@@ -137,8 +137,8 @@ func getFeedEntriesHandler(db store.Store, feedID string, w http.ResponseWriter,
 // GET /feeds/:id
 // Renders a feed that was found with the given ID.
 func getFeedHandler(db store.Store, id string, w http.ResponseWriter, r *http.Request) {
-	xid, err := index.NewDexIDFromHexDigest(id)
-	if err != nil {
+	xid := &index.SHA224DexID{}
+	if err := xid.SetValueFromHexString(id); err != nil {
 		render400(w, "invalid feed id")
 		return
 	}
