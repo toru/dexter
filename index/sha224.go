@@ -15,11 +15,6 @@ const (
 // object inside Dexter has been alloted with.
 type DexID = [sha256.Size224]byte
 
-// NewDexIDFromString returns a new DexID based on the given string.
-func NewDexIDFromString(src string) DexID {
-	return sha256.Sum224([]byte(src))
-}
-
 // NewDexIDFromHexDigest returns a new DexID based on the given hex digest.
 func NewDexIDFromHexDigest(src string) (DexID, error) {
 	if !ValidateHexID(src) {
