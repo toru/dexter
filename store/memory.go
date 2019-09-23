@@ -96,13 +96,12 @@ func (s *MemoryStore) WriteFeed(f feed.Feed) error {
 
 // Entries returns a slice of feed.Entry that belongs to a feed that
 // matches the given identifier.
-func (s *MemoryStore) Entries(id index.DexID) []feed.Entry {
+func (s *MemoryStore) Entries(id index.ID) []feed.Entry {
 	s.feedsMux.RLock()
 	defer s.feedsMux.RUnlock()
 
 	var rv []feed.Entry
-	xid := index.NewSHA224DexIDFromLegacyDexID(id)
-	f, ok := s.feeds[xid.String()]
+	f, ok := s.feeds[id.String()]
 	if ok {
 		rv = f.Entries()
 	}
