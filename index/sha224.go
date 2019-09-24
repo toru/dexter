@@ -15,20 +15,6 @@ const (
 // object inside Dexter has been alloted with.
 type DexID = [sha256.Size224]byte
 
-// NewDexIDFromHexDigest returns a new DexID based on the given hex digest.
-func NewDexIDFromHexDigest(src string) (DexID, error) {
-	if !ValidateHexID(src) {
-		return DexID{}, errors.New("invalid dexter id")
-	}
-	rv := DexID{}
-	raw, err := hex.DecodeString(src)
-	if err != nil {
-		return rv, err
-	}
-	copy(rv[:], raw)
-	return rv, nil
-}
-
 // ValidateHexID returns a boolean indicating the validity of the given
 // hexadecimal string. Mostly syntax sugar at this point.
 func ValidateHexID(digest string) bool {
