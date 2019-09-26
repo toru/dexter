@@ -12,10 +12,14 @@ import (
 	"github.com/toru/dexter/web"
 )
 
-const defaultSyncInterval string = "30m"
+const (
+	defaultSyncInterval = "30m"
+	defaultHashAlgo     = "sha1"
+)
 
 type config struct {
 	SyncInterval time.Duration    `toml:"sync_interval"` // Interval between subscription syncs
+	HashAlgo     string           `toml:"hash_algo"`     // Hash algorithm for indexing
 	Web          web.ServerConfig `toml:"web"`           // Web API server configuration
 
 	// Temporary hack for development purpose. Eventually a more
@@ -46,6 +50,9 @@ func main() {
 		log.Fatal(err)
 	}
 
+	if len(cfg.HashAlgo) == 0 {
+		cfg.HashAlgo = defaultHashAlgo
+	}
 	if cfg.SyncInterval == 0 {
 		if verbose {
 			log.Printf("sync_interval missing, using: %s\n", defaultSyncInterval)
