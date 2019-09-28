@@ -32,6 +32,6 @@ func GetStore(name string) (Store, error) {
 	case "mysql", "mariadb":
 		return nil, errors.New("work in progress")
 	default:
-		return nil, errors.New("unknown store")
+		return nil, errors.New("unknown storage engine")
 	}
 }
