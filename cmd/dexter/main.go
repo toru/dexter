@@ -7,7 +7,7 @@ import (
 
 	"github.com/pelletier/go-toml"
 
-	"github.com/toru/dexter/store"
+	"github.com/toru/dexter/storage"
 	"github.com/toru/dexter/subscription"
 	"github.com/toru/dexter/web"
 )
@@ -63,7 +63,7 @@ func main() {
 		}
 	}
 
-	db, err := store.GetStore("memory")
+	db, err := storage.GetStore("memory")
 	if err != nil {
 		log.Fatal(err)
 	}

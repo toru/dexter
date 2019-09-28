@@ -11,7 +11,7 @@ import (
 
 	"github.com/toru/dexter/feed"
 	"github.com/toru/dexter/index"
-	"github.com/toru/dexter/store"
+	"github.com/toru/dexter/storage"
 	"github.com/toru/dexter/subscription"
 )
 
@@ -59,7 +59,7 @@ func render500(w http.ResponseWriter, reason string) {
 }
 
 // Entry point for the /feeds resource.
-func feedsResourceHandlerFunc(db store.Store) http.HandlerFunc {
+func feedsResourceHandlerFunc(db storage.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tokens := splitPath(r.URL.Path)
 		numTokens := len(tokens)
@@ -90,7 +90,7 @@ func feedsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 }
 
 // Entry point for the /subscriptions resource.
-func subscriptionsResourceHandlerFunc(db store.Store) http.HandlerFunc {
+func subscriptionsResourceHandlerFunc(db storage.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodPost:
@@ -105,7 +105,7 @@ func subscriptionsResourceHandlerFunc(db store.Store) http.HandlerFunc {
 
 // GET /feeds/:id/entries
 // Renders a list of entries associated to the given feed ID.
-func getFeedEntriesHandler(db store.Store, id string, w http.ResponseWriter, r *http.Request) {
+func getFeedEntriesHandler(db storage.Store, id string, w http.ResponseWriter, r *http.Request) {
 	xid := &index.SHA224DexID{}
 	if err := xid.SetValueFromHexString(id); err != nil {
 		render400(w, "invalid feed id")
@@ -136,7 +136,7 @@ func getFeedEntriesHandler(db store.Store, id string, w http.ResponseWriter, r *
 
 // GET /feeds/:id
 // Renders a feed that was found with the given ID.
-func getFeedHandler(db store.Store, id string, w http.ResponseWriter, r *http.Request) {
+func getFeedHandler(db storage.Store, id string, w http.ResponseWriter, r *http.Request) {
 	xid := &index.SHA224DexID{}
 	if err := xid.SetValueFromHexString(id); err != nil {
 		render400(w, "invalid feed id")
@@ -165,7 +165,7 @@ func getFeedHandler(db store.Store, id string, w http.ResponseWriter, r *http.Re
 
 // GET /feeds
 // Renders a list of feeds.
-func getFeedsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
+func getFeedsHandler(db storage.Store, w http.ResponseWriter, r *http.Request) {
 	feeds := make([]feedPresenter, 0, db.NumSubscriptions())
 	for _, f := range db.Feeds() {
 		feeds = append(feeds, feedPresenter{
@@ -187,7 +187,7 @@ func getFeedsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
 
 // POST /subscriptions
 // Creates a new subscription, given a "url" parameter.
-func postSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
+func postSubscriptionsHandler(db storage.Store, w http.ResponseWriter, r *http.Request) {
 	feedURL := r.PostFormValue("url")
 	if len(feedURL) == 0 {
 		render400(w, "url parameter missing")
@@ -208,7 +208,7 @@ func postSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Req
 
 // GET /subscriptions
 // Renders a list of subscriptions.
-func getSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Request) {
+func getSubscriptionsHandler(db storage.Store, w http.ResponseWriter, r *http.Request) {
 	subs := make([]subscriptionPresenter, 0, db.NumSubscriptions())
 	for _, sub := range db.Subscriptions() {
 		subs = append(subs, subscriptionPresenter{
@@ -227,7 +227,7 @@ func getSubscriptionsHandler(db store.Store, w http.ResponseWriter, r *http.Requ
 }
 
 // ServeWebAPI starts the Web API application.
-func ServeWebAPI(cfg ServerConfig, db store.Store) error {
+func ServeWebAPI(cfg ServerConfig, db storage.Store) error {
 	log.Println("starting the web api server")
 	if cfg.Port == 0 {
 		log.Printf("port missing, using: %d", defaultPort)
