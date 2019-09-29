@@ -20,6 +20,11 @@ type Store interface {
 	Entries(index.ID) []feed.Entry
 }
 
+// StorageConfig holds Storage Engine related settings.
+type StorageConfig struct {
+	Engine string // Name of the storage engine
+}
+
 // GetStore returns a Storage Engine based on the given name.
 func GetStore(name string) (Store, error) {
 	switch name {
