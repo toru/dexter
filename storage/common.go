@@ -20,8 +20,8 @@ type Store interface {
 	Entries(index.ID) []feed.Entry
 }
 
-// StorageConfig holds Storage Engine related settings.
-type StorageConfig struct {
+// Config holds Storage Engine related settings.
+type Config struct {
 	Engine string // Name of the storage engine
 }
 

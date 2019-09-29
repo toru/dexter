@@ -17,8 +17,8 @@ import (
 
 const defaultPort = 8081
 
-// ServerConfig holds the Web API server settings.
-type ServerConfig struct {
+// Config holds the Web API server settings.
+type Config struct {
 	Listen string // TCP network address to listen on
 	Port   uint   // TCP port to listen for Web API requests
 }
@@ -227,7 +227,7 @@ func getSubscriptionsHandler(db storage.Store, w http.ResponseWriter, r *http.Re
 }
 
 // ServeWebAPI starts the Web API application.
-func ServeWebAPI(cfg ServerConfig, db storage.Store) error {
+func ServeWebAPI(cfg Config, db storage.Store) error {
 	log.Println("starting the web api server")
 	if cfg.Port == 0 {
 		log.Printf("port missing, using: %d", defaultPort)

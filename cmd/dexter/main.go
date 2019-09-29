@@ -18,9 +18,9 @@ const (
 )
 
 type config struct {
-	SyncInterval time.Duration    `toml:"sync_interval"` // Interval between subscription syncs
-	HashAlgo     string           `toml:"hash_algo"`     // Hash algorithm for indexing
-	Web          web.ServerConfig `toml:"web"`           // Web API server configuration
+	SyncInterval time.Duration `toml:"sync_interval"` // Interval between subscription syncs
+	HashAlgo     string        `toml:"hash_algo"`     // Hash algorithm for indexing
+	Web          web.Config    `toml:"web"`           // Web API server configuration
 
 	// Temporary hack for development purpose. Eventually a more
 	// sophisticated mechanism will be provided.
