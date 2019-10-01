@@ -51,10 +51,11 @@ func main() {
 	if err := cfgTree.Unmarshal(cfg); err != nil {
 		log.Fatal(err)
 	}
-	cfg.Storage.Engine = defaultStorageEngine
-
 	if len(cfg.HashAlgo) == 0 {
 		cfg.HashAlgo = defaultHashAlgo
+	}
+	if len(cfg.Storage.Engine) == 0 {
+		cfg.Storage.Engine = defaultStorageEngine
 	}
 	if cfg.SyncInterval == 0 {
 		if verbose {
