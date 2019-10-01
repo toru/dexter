@@ -13,14 +13,16 @@ import (
 )
 
 const (
-	defaultSyncInterval = "30m"
-	defaultHashAlgo     = "sha1"
+	defaultSyncInterval  = "30m"
+	defaultHashAlgo      = "sha1"
+	defaultStorageEngine = "memory"
 )
 
 type config struct {
-	SyncInterval time.Duration `toml:"sync_interval"` // Interval between subscription syncs
-	HashAlgo     string        `toml:"hash_algo"`     // Hash algorithm for indexing
-	Web          web.Config    `toml:"web"`           // Web API server configuration
+	SyncInterval time.Duration  `toml:"sync_interval"` // Interval between subscription syncs
+	HashAlgo     string         `toml:"hash_algo"`     // Hash algorithm for indexing
+	Storage      storage.Config `toml:"storage"`       // Storage engine configuration
+	Web          web.Config     `toml:"web"`           // Web API server configuration
 
 	// Temporary hack for development purpose. Eventually a more
 	// sophisticated mechanism will be provided.
@@ -49,6 +51,7 @@ func main() {
 	if err := cfgTree.Unmarshal(cfg); err != nil {
 		log.Fatal(err)
 	}
+	cfg.Storage.Engine = defaultStorageEngine
 
 	if len(cfg.HashAlgo) == 0 {
 		cfg.HashAlgo = defaultHashAlgo
@@ -63,7 +66,7 @@ func main() {
 		}
 	}
 
-	db, err := storage.GetStore("memory")
+	db, err := storage.GetStore(cfg.Storage.Engine)
 	if err != nil {
 		log.Fatal(err)
 	}
