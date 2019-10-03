@@ -26,8 +26,8 @@ type Config struct {
 }
 
 // GetStore returns a Storage Engine based on the given name.
-func GetStore(name string) (Store, error) {
-	switch name {
+func GetStore(cfg Config) (Store, error) {
+	switch cfg.Engine {
 	case "memory":
 		s, err := NewMemoryStore()
 		if err != nil {

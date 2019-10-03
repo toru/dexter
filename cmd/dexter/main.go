@@ -67,7 +67,7 @@ func main() {
 		}
 	}
 
-	db, err := storage.GetStore(cfg.Storage.Engine)
+	db, err := storage.GetStore(cfg.Storage)
 	if err != nil {
 		log.Fatal(err)
 	}
