@@ -8,7 +8,6 @@ import (
 const (
 	DexIDTypeSHA1 = iota
 	DexIDTypeSHA224
-	DexIDTypeUUID
 )
 
 // ID is a common interface for all unique identifiers.
