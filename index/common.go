@@ -10,6 +10,11 @@ const (
 	DexIDTypeSHA224
 )
 
+var hashAlgoDict = map[string]uint8{
+	"sha1":   DexIDTypeSHA1,
+	"sha224": DexIDTypeSHA224,
+}
+
 // ID is a common interface for all unique identifiers.
 type ID interface {
 	Algo() uint8
