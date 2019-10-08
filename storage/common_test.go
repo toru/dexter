@@ -6,9 +6,10 @@ import (
 
 func TestGetStore(t *testing.T) {
 	t.Run("with in-memory store", func(t *testing.T) {
+		cfg := Config{"memory"}
 		expectedName := "Memory Store"
 
-		s, err := GetStore("memory")
+		s, err := GetStore(cfg)
 		if err != nil {
 			t.Error(err)
 		}
@@ -17,7 +18,8 @@ func TestGetStore(t *testing.T) {
 		}
 	})
 	t.Run("with bogus store", func(t *testing.T) {
-		if _, err := GetStore("bogus"); err == nil {
+		cfg := Config{"bogus"}
+		if _, err := GetStore(cfg); err == nil {
 			t.Errorf("Got: nil, Want: error")
 		}
 	})
