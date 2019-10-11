@@ -12,7 +12,7 @@ type Issuer struct {
 func NewIssuer(algo string) (Issuer, error) {
 	isr := Issuer{}
 	if !IsSupported(algo) {
-		return isr, fmt.Errorf("unsupported hash algorithm")
+		return isr, fmt.Errorf("unsupported hash algorithm: %s", algo)
 	}
 	isr.hashAlgo = hashAlgoDict[algo]
 	return isr, nil
