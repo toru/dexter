@@ -11,12 +11,6 @@ const (
 	SHA224DexIDHexLen = sha256.Size224 * 2
 )
 
-// ValidateHexID returns a boolean indicating the validity of the given
-// hexadecimal string. Mostly syntax sugar at this point.
-func ValidateHexID(digest string) bool {
-	return len(digest) == SHA224DexIDHexLen
-}
-
 type SHA224DexID struct {
 	value [sha256.Size224]byte
 }

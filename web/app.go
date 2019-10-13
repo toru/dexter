@@ -68,12 +68,6 @@ func feedsResourceHandlerFunc(db storage.Store) http.HandlerFunc {
 			render404(w)
 			return
 		}
-		if numTokens > 1 {
-			if !index.ValidateHexID(tokens[1]) {
-				render404(w)
-				return
-			}
-		}
 
 		if numTokens == 1 {
 			getFeedsHandler(db, w, r)
