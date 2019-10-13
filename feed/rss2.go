@@ -93,7 +93,7 @@ func ParseRSS2Feed(doc []byte) (Feed, error) {
 // identifier so return the subscription_id as a hex string instead.
 func (rf *RSS2Feed) ID() string {
 	if len(rf.subscriptionID.Value()) > 0 {
-		return rf.subscriptionID.String()
+		return rf.subscriptionID.HexString()
 	}
 	return ""
 }

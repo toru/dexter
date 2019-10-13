@@ -19,7 +19,7 @@ var hashAlgoDict = map[string]uint8{
 type ID interface {
 	Algo() uint8
 	Value() []byte
-	String() string
+	HexString() string
 	SetValue(val []byte)
 	SetValueFromHexString(val string) error
 }

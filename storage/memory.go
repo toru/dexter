@@ -49,7 +49,7 @@ func (s *MemoryStore) WriteSubscription(sub *subscription.Subscription) error {
 	s.subsMux.Lock()
 	defer s.subsMux.Unlock()
 
-	s.subscriptions[sub.ID.String()] = *sub
+	s.subscriptions[sub.ID.HexString()] = *sub
 	return nil
 }
 
@@ -78,7 +78,7 @@ func (s *MemoryStore) Feed(id index.ID) (feed.Feed, bool) {
 	s.feedsMux.RLock()
 	defer s.feedsMux.RUnlock()
 
-	f, ok := s.feeds[id.String()]
+	f, ok := s.feeds[id.HexString()]
 	if !ok {
 		return nil, false
 	}
@@ -90,7 +90,7 @@ func (s *MemoryStore) WriteFeed(f feed.Feed) error {
 	s.feedsMux.Lock()
 	defer s.feedsMux.Unlock()
 
-	s.feeds[f.SubscriptionID().String()] = f
+	s.feeds[f.SubscriptionID().HexString()] = f
 	return nil
 }
 
@@ -101,7 +101,7 @@ func (s *MemoryStore) Entries(id index.ID) []feed.Entry {
 	defer s.feedsMux.RUnlock()
 
 	var rv []feed.Entry
-	f, ok := s.feeds[id.String()]
+	f, ok := s.feeds[id.HexString()]
 	if ok {
 		rv = f.Entries()
 	}
