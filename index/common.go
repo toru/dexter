@@ -21,6 +21,7 @@ type ID interface {
 	Value() []byte
 	HexString() string
 	SetValue(val []byte)
+	SetValueFromString(val string)
 	SetValueFromHexString(val string) error
 }
 

@@ -39,6 +39,11 @@ func (id *SHA224DexID) SetValue(val []byte) {
 	copy(id.value[:], val)
 }
 
+// SetValueFromString implements the ID interface.
+func (id *SHA224DexID) SetValueFromString(val string) {
+	id.value = sha256.Sum224([]byte(val))
+}
+
 // SetValueFromHex implements the ID interface.
 func (id *SHA224DexID) SetValueFromHexString(val string) error {
 	if len(val) != SHA224DexIDHexLen {
