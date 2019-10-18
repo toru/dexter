@@ -7,6 +7,7 @@ import (
 
 	"github.com/pelletier/go-toml"
 
+	"github.com/toru/dexter/index"
 	"github.com/toru/dexter/storage"
 	"github.com/toru/dexter/subscription"
 	"github.com/toru/dexter/web"
@@ -74,7 +75,11 @@ func main() {
 
 	// Temporary way to bootstrap subscriptions for dev purpose.
 	for _, endpoint := range cfg.Endpoints {
+		// TODO(toru): Use the index issuer.
 		sub, err := subscription.New(endpoint)
+		sub.ID = &index.SHA224DexID{}
+		sub.ID.SetValueFromString(endpoint)
+
 		if err != nil {
 			log.Print(err)
 		}

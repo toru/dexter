@@ -26,20 +26,13 @@ type Subscription struct {
 }
 
 // New returns a new Subscription.
+// TODO: Make this a no-arg func, for example by adding SetFeedURL().
 func New(feedURL string) (*Subscription, error) {
 	u, err := url.Parse(feedURL)
 	if err != nil {
 		return nil, err
 	}
-
-	// TODO(toru): Use the index issuer instead. In fact,
-	// should we even be computing the key at this point?
-	id := &index.SHA224DexID{}
-	id.SetValueFromString(feedURL)
-	s := &Subscription{
-		ID:      id,
-		FeedURL: *u,
-	}
+	s := &Subscription{FeedURL: *u}
 	return s, nil
 }
 

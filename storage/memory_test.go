@@ -14,7 +14,10 @@ func TestWriteSubscription(t *testing.T) {
 		t.Errorf("Got: %d, Want: 0", n)
 	}
 
-	sub, _ := subscription.New("https://ep.torumk.com/feed")
+	endpoint := "https://ep.torumk.com/feed"
+	sub, _ := subscription.New(endpoint)
+	sub.ID = &index.SHA224DexID{}
+	sub.ID.SetValueFromString(endpoint)
 	if err := s.WriteSubscription(sub); err != nil {
 		t.Error(err)
 	}
