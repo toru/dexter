@@ -32,8 +32,12 @@ func New(feedURL string) (*Subscription, error) {
 		return nil, err
 	}
 
+	// TODO(toru): Use the index issuer instead. In fact,
+	// should we even be computing the key at this point?
+	id := &index.SHA224DexID{}
+	id.SetValueFromString(feedURL)
 	s := &Subscription{
-		ID:      index.NewSHA224DexIDFromString(feedURL),
+		ID:      id,
 		FeedURL: *u,
 	}
 	return s, nil

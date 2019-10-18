@@ -25,7 +25,8 @@ func TestWriteSubscription(t *testing.T) {
 
 func TestWriteFeed(t *testing.T) {
 	s, _ := NewMemoryStore()
-	k := index.NewSHA224DexIDFromString("ok")
+	k := &index.SHA224DexID{}
+	k.SetValueFromString("ok")
 	f := feed.NewAtomFeed()
 	f.SetSubscriptionID(k.Value())
 
