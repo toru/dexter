@@ -26,14 +26,22 @@ type Subscription struct {
 }
 
 // New returns a new Subscription.
-// TODO: Make this a no-arg func, for example by adding SetFeedURL().
-func New(feedURL string) (*Subscription, error) {
+func New() (*Subscription, error) {
+	return &Subscription{}, nil
+}
+
+// Init initializes the subscription.
+func (s *Subscription) Init(feedURL string) error {
 	u, err := url.Parse(feedURL)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	s := &Subscription{FeedURL: *u}
-	return s, nil
+	s.FeedURL = *u
+
+	// TODO(toru): Use an index issuer instead.
+	s.ID = &index.SHA224DexID{}
+	s.ID.SetValueFromString(feedURL)
+	return nil
 }
 
 // IsOffline returns a boolean indicating the data feed reachability.

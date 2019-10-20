@@ -188,9 +188,8 @@ func postSubscriptionsHandler(db storage.Store, w http.ResponseWriter, r *http.R
 		return
 	}
 
-	sub, err := subscription.New(feedURL)
-	sub.ID = &index.SHA224DexID{}
-	sub.ID.SetValueFromString(feedURL)
+	sub, err := subscription.New()
+	sub.Init(feedURL)
 	if err != nil {
 		render500(w, err.Error())
 		return
