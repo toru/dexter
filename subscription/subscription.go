@@ -26,8 +26,8 @@ type Subscription struct {
 }
 
 // New returns a new Subscription.
-func New() (*Subscription, error) {
-	return &Subscription{}, nil
+func New() *Subscription {
+	return &Subscription{}
 }
 
 // Init initializes the subscription.

@@ -15,7 +15,7 @@ func TestWriteSubscription(t *testing.T) {
 	}
 
 	endpoint := "https://ep.torumk.com/feed"
-	sub, _ := subscription.New()
+	sub := subscription.New()
 	sub.Init(endpoint)
 	if err := s.WriteSubscription(sub); err != nil {
 		t.Error(err)

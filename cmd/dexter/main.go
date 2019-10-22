@@ -74,8 +74,8 @@ func main() {
 
 	// Temporary way to bootstrap subscriptions for dev purpose.
 	for _, endpoint := range cfg.Endpoints {
-		sub, err := subscription.New()
-		sub.Init(endpoint)
+		sub := subscription.New()
+		err := sub.Init(endpoint)
 		if err != nil {
 			log.Print(err)
 		}

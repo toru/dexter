@@ -188,8 +188,8 @@ func postSubscriptionsHandler(db storage.Store, w http.ResponseWriter, r *http.R
 		return
 	}
 
-	sub, err := subscription.New()
-	sub.Init(feedURL)
+	sub := subscription.New()
+	err := sub.Init(feedURL)
 	if err != nil {
 		render500(w, err.Error())
 		return
