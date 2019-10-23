@@ -8,12 +8,16 @@ type Issuer struct {
 	hashAlgo uint8
 }
 
-// NewIssuer returns a new ID Issuer
-func NewIssuer(algo string) (Issuer, error) {
-	isr := Issuer{}
+// NewIssuer returns a new ID Issuer.
+func NewIssuer(algo string) *Issuer {
+	return &Issuer{}
+}
+
+// SetAlgo sets the hashing algorithm.
+func (i *Issuer) SetAlgo(algo string) error {
 	if !IsSupported(algo) {
-		return isr, fmt.Errorf("unsupported hash algorithm: %s", algo)
+		return fmt.Errorf("unsupported hash algorithm: %s", algo)
 	}
-	isr.hashAlgo = hashAlgoDict[algo]
-	return isr, nil
+	i.hashAlgo = hashAlgoDict[algo]
+	return nil
 }
