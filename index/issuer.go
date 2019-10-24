@@ -2,19 +2,26 @@ package index
 
 import (
 	"fmt"
+	"sync"
 )
 
-type Issuer struct {
+type IssuerSingleton struct {
 	hashAlgo uint8
 }
 
-// NewIssuer returns a new ID Issuer.
-func NewIssuer(algo string) *Issuer {
-	return &Issuer{}
+var issuerInstance *IssuerSingleton
+var issuerOnce sync.Once
+
+// GetIssuer returns a new ID Issuer.
+func GetIssuer(algo string) *IssuerSingleton {
+	issuerOnce.Do(func() {
+		issuerInstance = &IssuerSingleton{}
+	})
+	return issuerInstance
 }
 
 // SetAlgo sets the hashing algorithm.
-func (i *Issuer) SetAlgo(algo string) error {
+func (i *IssuerSingleton) SetAlgo(algo string) error {
 	if !IsSupported(algo) {
 		return fmt.Errorf("unsupported hash algorithm: %s", algo)
 	}
