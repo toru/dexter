@@ -28,3 +28,8 @@ func (i *IssuerSingleton) SetAlgo(algo string) error {
 	i.hashAlgo = hashAlgoDict[algo]
 	return nil
 }
+
+// CreateID returns a newly created ID
+func (i *IssuerSingleton) CreateID() ID {
+	return &SHA224DexID{}
+}
