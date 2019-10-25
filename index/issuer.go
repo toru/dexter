@@ -13,7 +13,7 @@ var issuerInstance *IssuerSingleton
 var issuerOnce sync.Once
 
 // GetIssuer returns a new ID Issuer.
-func GetIssuer(algo string) *IssuerSingleton {
+func GetIssuer() *IssuerSingleton {
 	issuerOnce.Do(func() {
 		issuerInstance = &IssuerSingleton{}
 	})
