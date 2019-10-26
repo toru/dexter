@@ -7,6 +7,7 @@ import (
 
 	"github.com/pelletier/go-toml"
 
+	"github.com/toru/dexter/index"
 	"github.com/toru/dexter/storage"
 	"github.com/toru/dexter/subscription"
 	"github.com/toru/dexter/web"
@@ -65,6 +66,11 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+	}
+
+	issuer := index.GetIssuer()
+	if err := issuer.SetAlgo(cfg.HashAlgo); err != nil {
+		log.Fatal(err)
 	}
 
 	db, err := storage.GetStore(cfg.Storage)
