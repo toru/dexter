@@ -107,12 +107,11 @@ func NewAtomFeed() Feed {
 
 // ParseAtomFeed parses the given byte slice as an AtomFeed.
 func ParseAtomFeed(doc []byte) (Feed, error) {
-	feed := &AtomFeed{}
-	feed.subscriptionID = &index.SHA224DexID{}
-	if err := xml.Unmarshal(doc, feed); err != nil {
+	f := NewAtomFeed()
+	if err := xml.Unmarshal(doc, f); err != nil {
 		return nil, err
 	}
-	return feed, nil
+	return f, nil
 }
 
 // SetSubscriptionID sets the given ID to the feed.
