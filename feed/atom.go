@@ -101,7 +101,7 @@ type AtomEntry struct {
 // NewAtomFeed returns a new AtomFeed.
 func NewAtomFeed() Feed {
 	feed := &AtomFeed{}
-	feed.subscriptionID = &index.SHA224DexID{}
+	feed.subscriptionID = index.GetIssuer().CreateID()
 	return feed
 }
 
