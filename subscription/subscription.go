@@ -38,8 +38,7 @@ func (s *Subscription) Init(feedURL string) error {
 	}
 	s.FeedURL = *u
 
-	// TODO(toru): Use an index issuer instead.
-	s.ID = &index.SHA224DexID{}
+	s.ID = index.GetIssuer().CreateID()
 	s.ID.SetValueFromString(feedURL)
 	return nil
 }
