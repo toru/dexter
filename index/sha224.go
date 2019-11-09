@@ -12,7 +12,7 @@ const (
 )
 
 type SHA224DexID struct {
-	value [sha256.Size224]byte
+	value [SHA224DexIDLen]byte
 }
 
 // Algo implements the ID interface.
