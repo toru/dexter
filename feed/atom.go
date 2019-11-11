@@ -101,6 +101,8 @@ type AtomEntry struct {
 // NewAtomFeed returns a new AtomFeed.
 func NewAtomFeed() Feed {
 	feed := &AtomFeed{}
+	// TODO: Check if this instantiation is needed. Makes more
+	// sense to set the pointer from the caller via SetSubID().
 	feed.subscriptionID = index.GetIssuer().CreateID()
 	return feed
 }
