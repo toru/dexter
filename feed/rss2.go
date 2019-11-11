@@ -123,8 +123,8 @@ func (rf *RSS2Feed) Entries() []Entry {
 }
 
 // SetSubscriptionID sets the given ID to the feed.
-func (rf *RSS2Feed) SetSubscriptionID(id []byte) {
-	rf.subscriptionID.SetValue(id)
+func (rf *RSS2Feed) SetSubscriptionID(id index.ID) {
+	rf.subscriptionID.SetValue(id.Value())
 }
 
 // SetFeedID implements the Entry interface.

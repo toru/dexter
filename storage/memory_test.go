@@ -30,7 +30,7 @@ func TestWriteFeed(t *testing.T) {
 	k := &index.SHA224DexID{}
 	k.SetValueFromString("ok")
 	f := feed.NewAtomFeed()
-	f.SetSubscriptionID(k.Value())
+	f.SetSubscriptionID(k)
 
 	if err := s.WriteFeed(f); err != nil {
 		t.Error(err)

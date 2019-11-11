@@ -89,14 +89,14 @@ func (s *Subscription) FeedSync() (feed.Feed, error) {
 		if err != nil {
 			return nil, err
 		}
-		af.SetSubscriptionID(s.ID.Value())
+		af.SetSubscriptionID(s.ID)
 		return af, nil
 	case feed.RSS2FeedFormat:
 		rf, err := feed.ParseRSS2Feed(payload)
 		if err != nil {
 			return nil, err
 		}
-		rf.SetSubscriptionID(s.ID.Value())
+		rf.SetSubscriptionID(s.ID)
 		return rf, nil
 	default:
 		return nil, fmt.Errorf("unknown syndication format")

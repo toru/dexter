@@ -115,8 +115,8 @@ func ParseAtomFeed(doc []byte) (Feed, error) {
 }
 
 // SetSubscriptionID sets the given ID to the feed.
-func (af *AtomFeed) SetSubscriptionID(id []byte) {
-	af.subscriptionID.SetValue(id)
+func (af *AtomFeed) SetSubscriptionID(id index.ID) {
+	af.subscriptionID.SetValue(id.Value())
 }
 
 // ID implements the Feed interface.
