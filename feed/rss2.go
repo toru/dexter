@@ -78,9 +78,14 @@ type RSS2Feed struct {
 	subscriptionID index.ID
 }
 
+// NewRSS2Feed returns a new RSS2Feed.
+func NewRSS2Feed() Feed {
+	return &RSS2Feed{}
+}
+
 // ParseRSS2Feed parses the given byte slice as an RSS2Feed.
 func ParseRSS2Feed(doc []byte) (Feed, error) {
-	feed := &RSS2Feed{}
+	feed := NewRSS2Feed()
 	if err := xml.Unmarshal(doc, feed); err != nil {
 		return nil, err
 	}
