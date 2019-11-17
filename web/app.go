@@ -25,6 +25,7 @@ type Config struct {
 
 type entryPresenter struct {
 	ID      string `json:"id"`      // Entry ID
+	Title   string `json:"title"`   // Entry Title
 	Summary string `json:"summary"` // Entry Summary
 }
 
@@ -115,6 +116,7 @@ func getFeedEntriesHandler(db storage.Store, id string, w http.ResponseWriter, r
 	for _, entry := range f.Entries() {
 		entries = append(entries, entryPresenter{
 			entry.ID(),
+			entry.Title(),
 			entry.Summary(),
 		})
 	}
