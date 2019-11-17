@@ -25,6 +25,7 @@ type Feed interface {
 type Entry interface {
 	FeedID() index.ID
 	ID() string
+	Title() string
 	Summary() string
 	SetFeedID(id index.ID)
 }

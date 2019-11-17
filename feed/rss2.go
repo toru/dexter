@@ -33,7 +33,7 @@ func (rt *RSS2Time) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 }
 
 type RSS2Item struct {
-	Title       string `xml:"title"`
+	Title_      string `xml:"title"`
 	Link        string `xml:"link"`
 	Description string `xml:"description"`
 	GUID        string `xml:"guid"`
@@ -143,6 +143,11 @@ func (ri *RSS2Item) FeedID() index.ID {
 // ID implements the Entry interface.
 func (ri *RSS2Item) ID() string {
 	return ri.GUID
+}
+
+// Title implements the Entry interface.
+func (ri *RSS2Item) Title() string {
+	return ri.Title_
 }
 
 // Summary implements the Entry interface.

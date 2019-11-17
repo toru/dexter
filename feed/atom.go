@@ -91,7 +91,7 @@ type AtomEntry struct {
 	Rights       string            `xml:"rights"`
 	Source       string            `xml:"source"`
 	Summary_     atomText          `xml:"summary"`
-	Title        string            `xml:"title"`
+	Title_       string            `xml:"title"`
 	Updated      time.Time         `xml:"updated"`
 
 	// Dexter specific attributes
@@ -159,6 +159,11 @@ func (ae *AtomEntry) FeedID() index.ID {
 // ID implements the Entry interface.
 func (ae *AtomEntry) ID() string {
 	return ae.ID_
+}
+
+// Title implements the Entry interface.
+func (ae *AtomEntry) Title() string {
+	return ae.Title_
 }
 
 // Summary implements the Entry interface.
