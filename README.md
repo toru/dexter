@@ -26,9 +26,22 @@ port = 8081
 
 TBD: Likely support TLS via the [tls] configuration.
 
-### Authentication
+### API Reference
+
+The Dexter Web API is a [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) API that you often come across on the Web.
+This section is temporary until there's a dedicated home for the reference.
+
+#### Authentication
 
 TBD: Likely support Basic auth and JSON Web Tokens (JWT).
+
+#### Subscriptions
+
+List of subscriptions that Dexter is configured to collect.
+
+```
+GET /subscriptions
+```
 
 ## Dependencies
 
