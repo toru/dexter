@@ -16,3 +16,8 @@ const (
 type SHA1DexID struct {
 	value [SHA1DexIDLen]byte
 }
+
+// Algo implements the ID interface.
+func (id SHA1DexID) Algo() uint8 {
+	return DexIDTypeSHA1
+}
