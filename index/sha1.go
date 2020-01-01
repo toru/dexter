@@ -32,3 +32,13 @@ func (id SHA1DexID) Value() []byte {
 func (id SHA1DexID) HexString() string {
 	return hex.EncodeToString(id.value[:])
 }
+
+// SetValue implements the ID interface.
+func (id *SHA1DexID) SetValue(val []byte) {
+	copy(id.value[:], val)
+}
+
+// SetValueFromString implements the ID interface.
+func (id *SHA1DexID) SetValueFromString(val string) {
+	id.value = sha1.Sum([]byte(val))
+}
