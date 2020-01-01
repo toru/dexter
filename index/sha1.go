@@ -7,6 +7,7 @@ package index
 import (
 	"crypto/sha1"
 	"encoding/hex"
+	"errors"
 )
 
 const (
@@ -41,4 +42,17 @@ func (id *SHA1DexID) SetValue(val []byte) {
 // SetValueFromString implements the ID interface.
 func (id *SHA1DexID) SetValueFromString(val string) {
 	id.value = sha1.Sum([]byte(val))
+}
+
+// SetValueFromHex implements the ID interface.
+func (id *SHA1DexID) SetValueFromHexString(val string) error {
+	if len(val) != SHA1DexIDHexLen {
+		return errors.New("invalid hex string")
+	}
+	raw, err := hex.DecodeString(val)
+	if err != nil {
+		return err
+	}
+	copy(id.value[:], raw)
+	return nil
 }
