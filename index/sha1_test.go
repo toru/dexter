@@ -4,24 +4,24 @@ import (
 	"testing"
 )
 
-func TestSHA224SetValueFromString(t *testing.T) {
-	id := &SHA224DexID{}
+func TestSHA1SetValueFromString(t *testing.T) {
+	id := &SHA1DexID{}
 	id.SetValueFromString("evergreen")
-	want := "ca29aa62fbeb0497539a64be6d97f18b4b393773a98901513c20eb82"
+	want := "59acab5d0a5ee07d665440a21ec311c06bcdfe93"
 	got := id.HexString()
 	if got != want {
 		t.Errorf("Got: %s, Want: %s", got, want)
 	}
 }
 
-func TestSHA224SetValueFromHexString(t *testing.T) {
-	id := &SHA224DexID{}
+func TestSHA1SetValueFromHexString(t *testing.T) {
+	id := &SHA1DexID{}
 	src := "invalid"
 	if err := id.SetValueFromHexString(src); err == nil {
 		t.Error("Got: ok, Want: fail")
 	}
 
-	src = "ab66ac985b784cd6966b63122df2f73fc756aef8599530f9011a2c14"
+	src = "53e71790fd8b19a7e7299454ab0b98ac96b33295"
 	if err := id.SetValueFromHexString(src); err != nil {
 		t.Error(err)
 	}
