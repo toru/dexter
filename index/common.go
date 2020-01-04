@@ -26,7 +26,7 @@ type ID interface {
 }
 
 // IsSupported validates if the indexer supports the given hash algorithm.
-// Dexter currently only supports SHA-224.
 func IsSupported(algo string) bool {
-	return strings.ToLower(algo) == "sha224"
+	algo = strings.ToLower(algo)
+	return algo == "sha1" || algo == "sha224"
 }
