@@ -1,5 +1,5 @@
 /*
- * WIP: SHA-1 based object addresser.
+ * SHA-1 based object addresser. The API is defined by the ID interface.
  */
 
 package index
