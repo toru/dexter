@@ -31,5 +31,8 @@ func (i *IssuerSingleton) SetAlgo(algo string) error {
 
 // CreateID returns a newly created ID
 func (i *IssuerSingleton) CreateID() ID {
+	if i.hashAlgo == DexIDTypeSHA1 {
+		return &SHA1DexID{}
+	}
 	return &SHA224DexID{}
 }
