@@ -6,8 +6,10 @@ I will add more content once this project proves to be useful.
 ## Storage
 
 The Dexter store is a content-addressable system, where everything is indexed
-with a SHA-224 hash. Dexter also provides a well defined database interface,
-allowing developers to easily write their own storage engine.
+with a [SHA-1](https://en.wikipedia.org/wiki/SHA-1) hash by default.
+[SHA-224](https://en.wikipedia.org/wiki/SHA-2) is also available.
+Dexter also provides a well defined database interface, allowing developers to
+easily write their own storage engine.
 
 ## The Dexter Web API
 
