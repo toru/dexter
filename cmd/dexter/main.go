@@ -15,7 +15,7 @@ import (
 
 const (
 	defaultSyncInterval  = "30m"
-	defaultHashAlgo      = "sha224"
+	defaultHashAlgo      = "sha1"
 	defaultStorageEngine = "memory"
 )
 
